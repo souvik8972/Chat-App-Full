@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link rel="stylesheet" href="/css/home.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amaranth&family=Aoboshi+One&family=Borel&family=EB+Garamond&family=Great+Vibes&family=Kaushan+Script&family=Lumanosimo&family=Merienda:wght@300&family=Noto+Serif+Bengali:wght@900&family=Nova+Square&family=Pacifico&family=Raleway:wght@800&family=Righteous&family=Satisfy&family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css"
+      rel="stylesheet"/>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="left"><i class="ri-token-swap-line"></i>Kotha Barta</div>
+      <div class="right">
+        <ul>
+            
+          <li id="signup">Sign Up</li>
+          <li id="login">Sign In</li>
+          
+        </ul>
+      </div>
+      <i class="ri-menu-line menu"></i>
+    </nav>
+    <div class="hero">
+        <div class="heroLeft"><img src="/css/img/hero.png" alt="" srcset=""></div>
+        <div class="heroRight">
+            <div class="context">
+                <h1>Forge <span>emotional</span> bonds in every <span>message</span> , one soulful <span>conversation</span> at a time.</h1>
+            <h5>An intuitive chat app designed for seamless communication, fostering meaningful connections through user-friendly interface and expressive features.</h5>
+            </div>
+            <div class="link" >
+                <a id="signupbtn"  href="javascript:void(0)">Sign Up <i class="ri-arrow-right-line arrow"></i></a>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="spanImg">
+        
+    </div>
+    <div class="spanImg2"></div>
+
+    <div class="user">
+        <h1 class="header">Sign Up</h1>
+        <i class="ri-xrp-line close"></i>
+        <form action="#" method="post" id="signupForm">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter Username" required>
+    
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter email" required>
+    
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Enter 10-digit phone number" required>
+    
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="password" name="password" required>
+    
+            <label for="confpassword">Confirm Password:</label>
+            <input type="password" id="confpassword" placeholder="Confirm password" name="confpassword" required>
+    
+            <button type="submit">Sign Up</button>
+        </form>
+            
+        <div id="span"> already have an account?<br/> <a id="signinToggle" href="javascript:void(0)">login here</a></div>
+
+
+    </div>
+    <div class="userlogin">
+        <h1 class="header">Login</h1>
+        <i class="ri-xrp-line close1"></i>
+        <form action="#" method="post" id="loginForm">
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+    
+            
+    
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+    
+            
+    
+            <button type="submit">Login</button>
+        </form>
+            
+        <div id="span"> don't have an account?<br/> <a id="signupToggle" href="javascript:void(0)">signup here</a>
+        <br><a href="">forgot Password?</a>
+    </div>
+
+
+    </div>
+
+
+
+    <script src="/js/home.js"></script>
+  </body>
+</html>
