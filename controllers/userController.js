@@ -6,19 +6,12 @@ const secretKey=process.env.SECRET_KEY
 
 
 exports.signup=async(req,res)=>{
-    const {username,email,phonenumber,password} = req.body;
+    const {username,email,phonenumber,password,confpassword} = req.body;
 
     
     try {
 
-        // Validate user data
-    const validationError = validateUserData(username, email, phonenumber, password);
-
-    if (validationError) {
-      // Return validation error response
-      return res.status(400).send(validationError);
-    }
-
+    
 
         //checking user present or not by using email
     const user=await User.findAll({
@@ -30,6 +23,9 @@ exports.signup=async(req,res)=>{
 })
 //if user is not present
     if(user==""){
+        if(confpassword!==password){
+            return res.status(403).send("password does not matched")
+        }
         //creating a has pasword using bcrypt.hash function and adding solt value of 10
         const hasHpasswords=await bcrypt.hash(password,10);
         //createing a new user
@@ -114,10 +110,7 @@ exports.login=async(req,res)=>{
         }
       
         // Validate phone number
-        const phoneNumberRegex = /^\d{10}$/;
-        if (!phonenumber || !phoneNumberRegex.test(phonenumber)) {
-          return 'Invalid phone number format (should be 10 digits)';
-        }
+        
       
         // Validate password (customize the criteria as needed)
         if (!password || password.length < 4) {

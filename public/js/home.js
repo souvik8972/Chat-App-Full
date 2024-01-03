@@ -1,4 +1,22 @@
-      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const signupbtn=document.getElementById("signup");
 const loginbtn=document.getElementById("login")
 const signupuser=document.querySelector(".user")
@@ -40,3 +58,50 @@ function popupsignin(){
 }
 
 loginbtn.addEventListener("click",popupsignin)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const signFormbtn=document.getElementById("signupForm")
+
+signFormbtn.addEventListener("submit",signup)
+function signup(e){
+    e.preventDefault()
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const phonenumber = document.getElementById("phone").value;
+    const password = document.getElementById("password").value;
+    const confpassword = document.getElementById("confpassword").value;
+
+
+    const formData = {
+        username,
+        email,
+        phonenumber,
+        password,
+        confpassword
+    }
+    console.log(formData);
+    axios.post('/signup', formData)
+    .then(response => {
+        console.log('Response Status:', response.status);
+        console.log('Response Data:', response.data);
+        e.target.reset();
+        popupsignin()
+    })
+    .catch(error => {
+        console.error('Error Status:', error.response.status);
+        console.error('Error Data:', error.response.data);
+    });
+
+}
