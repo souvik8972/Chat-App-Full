@@ -70,19 +70,18 @@ loginbtn.addEventListener("click",popupsignin)
 
 
 
+const flashMessage = document.querySelector(".flashMessage");
+const signFormbtn = document.getElementById("signupForm");
 
+signFormbtn.addEventListener("submit", signup);
 
-const signFormbtn=document.getElementById("signupForm")
-
-signFormbtn.addEventListener("submit",signup)
-function signup(e){
-    e.preventDefault()
+function signup(e) {
+    e.preventDefault();
     const username = document.getElementById("username").value;
     const email = document.getElementById("email").value;
     const phonenumber = document.getElementById("phone").value;
     const password = document.getElementById("password").value;
     const confpassword = document.getElementById("confpassword").value;
-
 
     const formData = {
         username,
@@ -90,18 +89,93 @@ function signup(e){
         phonenumber,
         password,
         confpassword
-    }
+    };
+
     console.log(formData);
+
     axios.post('/signup', formData)
-    .then(response => {
+        .then(response => {
+            console.log('Response Status:', response.status);
+            console.log('Response Data:', response.data);
+            e.target.reset();
+            flashMessage.classList.add("success");
+            flashMessage.textContent = response.data.message;
+
+            setTimeout(() => {
+                flashMessage.classList.remove("success");
+                popupsignin();
+            }, 2000);
+        })
+        .catch(error => {
+            flashMessage.classList.add("failed");
+            
+            // Check if the error object has a response and data property
+            if (error.response && error.response.data) {
+                flashMessage.textContent = error.response.data.error;
+            } else {
+                flashMessage.textContent = 'An error occurred.';
+            }
+
+            setTimeout(() => {
+                flashMessage.classList.remove("failed");
+            }, 2000);
+
+            console.log('Error Data:', error.response);
+        });
+}
+
+
+
+
+
+
+
+////
+
+
+const loginForm = document.getElementById("loginForm");
+const flashMessage1 = document.querySelector(".flashMessage1");
+loginForm.addEventListener("submit", login);
+
+async function login(e) {
+    e.preventDefault();
+    const email = document.getElementById("emailLogin").value;
+    const password = document.getElementById("passwordLogin").value;
+
+    const formData = {
+        email,
+        password
+    };
+
+    console.log(formData);
+
+    try {
+        const response = await axios.post('/login', formData);
         console.log('Response Status:', response.status);
         console.log('Response Data:', response.data);
         e.target.reset();
-        popupsignin()
-    })
-    .catch(error => {
-        console.error('Error Status:', error.response.status);
-        console.error('Error Data:', error.response.data);
-    });
+        flashMessage1.classList.add("success");
+        flashMessage1.textContent = response.data.message;
 
+        setTimeout(() => {
+            flashMessage1.classList.remove("success");
+            alert("done")
+            // Add any logic or redirect to the logged-in user's dashboard
+        }, 2000);
+    } catch (error) {
+        flashMessage1.classList.add("failed");
+
+        // Check if the error object has a response and data property
+        if (error.response && error.response.data) {
+            flashMessage1.textContent = error.response.data.error;
+        } else {
+            flashMessage1.textContent = 'An error occurred.';
+        }
+
+        setTimeout(() => {
+            flashMessage1.classList.remove("failed");
+        }, 2000);
+
+        console.error('Error Data:', error.response);
+    }
 }

@@ -9,7 +9,7 @@
   padding: 0%;
   box-sizing: border-box;
   overflow-x: hidden;
-  
+  transition: all ease 0.3s;
   
   }
   
@@ -283,4 +283,29 @@
       display: none;
   }
   
-  
+  .flashMessage,.flashMessage1{
+    background-color: #008170;
+    
+    
+
+    height: 5vh;
+    margin: auto;
+    transition: all ease 0.3 ;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: larger;
+    display: none;
+    
+}
+.success{
+    display: block;
+}
+
+.failed{
+    background-color: rgb(226, 145, 31);
+display: block;
+    
+}
+span{
+    color: #008170;
+}
