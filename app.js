@@ -6,8 +6,9 @@ const bodyParser = require('body-parser')
 const sequelize=require("./util/db")
 require("dotenv").config()
 const PORT=process.env.PORT 
-
-
+const User=require("./models/userDb")
+const Message=require("./models/userMessage")
+const messageRoute=require("./routes/message")
 
 
 const userRoute=require("./routes/user")
@@ -30,7 +31,13 @@ app.use(cors());
 
 //
 app.use(userRoute)
+app.use(messageRoute)
 
+User.hasMany(Message)
+Message.belongsTo(User,
+    {constraints:true, onDelete:'CASCADE'}
+
+)
 
 
 

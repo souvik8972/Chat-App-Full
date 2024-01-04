@@ -271,6 +271,7 @@
   
   .blur{
       filter: blur(10px);
+      transition: all 0.8s ease-in-out;
   }
   
   .user,.userlogin{

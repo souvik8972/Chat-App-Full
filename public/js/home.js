@@ -156,6 +156,22 @@ async function login(e) {
         e.target.reset();
         flashMessage1.classList.add("success");
         flashMessage1.textContent = response.data.message;
+        console.log("username",response.data.user.username)
+        console.log("token",response.data.token)
+        const token = response.data.token
+        const username = response.data.user.username
+        const phonenumber=response.data.user.phonenumber;
+        const email = response.data.user.email
+        // localStorage.setItem("token", JSON.stringify({ name:response.data.name,token: response.data.token }));
+        const data={
+            "username": username,
+            "phonenumber": phonenumber,
+            "token": token,
+            "email":email
+
+
+        }
+        localStorage.setItem("token",JSON.stringify(data))
 
         setTimeout(() => {
             flashMessage1.classList.remove("success");

@@ -4,7 +4,7 @@ require ("dotenv").config()
 
 const secretKey=process.env.SECRET_KEY
 
-exports.auth= async (request, response, next) => {
+exports.authentication= async (request, response, next) => {
     try {
         const authorizationHeader = request.headers.authorization;
 
