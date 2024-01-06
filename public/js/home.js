@@ -162,7 +162,7 @@ async function login(e) {
         const username = response.data.user.username
         const phonenumber=response.data.user.phonenumber;
         const email = response.data.user.email
-        // localStorage.setItem("token", JSON.stringify({ name:response.data.name,token: response.data.token }));
+        localStorage.setItem("token", JSON.stringify({ token: response.data.token ,username: username ,phonenumber: phonenumber,email: email}));
         const data={
             "username": username,
             "phonenumber": phonenumber,
@@ -175,7 +175,7 @@ async function login(e) {
 
         setTimeout(() => {
             flashMessage1.classList.remove("success");
-            alert("done")
+            window.location.href = "/dashboard"
             // Add any logic or redirect to the logged-in user's dashboard
         }, 2000);
     } catch (error) {

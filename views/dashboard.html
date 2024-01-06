@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/dashboard.css" />
     <link
     href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css"
     rel="stylesheet"/>
@@ -20,7 +20,7 @@
           <ul>
               <li>home</li>
             <li>Profile</li>
-            <li>log out</li>
+            <li id="logout">log out</li>
             
           </ul>
         </div>
@@ -46,9 +46,40 @@
 
 
         <div class="heroright">
+            <div class="heading">
+                <div class="group-img"><img src="" alt="" srcset=""></div>
+                <div class="group-name"> Group name</div>
+                <div class="group-member">5 members</div>
+                <div class="edit-button"><i class="ri-pencil-line"></i></div>
+            </div>
             <div class="view_message">
-                <p> vik joined</p>
-                    <p>Vik:Hello</p>
+
+                <ul class="message_container">
+
+                    <!-- <li class="others_message">
+                        <p class="message">
+                            <span>username</span>
+                            message
+                            <span>today at 12.2.3ddddddddddddddddd1</span>
+                        </p>
+                    </li>
+                    <li class="my_message">
+                        <p class="message">
+                            souvik das
+                            <span>today at 12.2.31 sdsf</span>
+                        </p>
+                    </li>
+                    <li class="feedback">   
+                        someone writing
+                    </li> -->
+
+
+                </ul>
+
+
+
+
+                
                 </div>
 
             
@@ -60,7 +91,7 @@
             <div class="input">
                 
                 <input type="text" name="message"  id="message">
-            <input type="button" id="button" value="Send">
+                <div class="send"><i class="ri-send-plane-2-line"></i></div>
             
             </div>
             </div>
@@ -70,5 +101,8 @@
 
 
       </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+
+      <script src="/js/dashboard.js"></script>
 </body>
 </html>
