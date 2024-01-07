@@ -1,3 +1,26 @@
+document.addEventListener("DOMContentLoaded", () => {
+    
+    welcomeMessage()
+    getMessage()
+    getAllUsers();
+    userProfilre()
+    
+    
+})
+
+
+
+
+
+
+
+
+
+
+
+//<<<<<authntication>>>>>>>>>>>>>>.
+
+
 function authentication() {
     const tokenData = JSON.parse(localStorage.getItem('token'));
     // console.log('Token Data:', tokenData);
@@ -39,20 +62,8 @@ console.log(authenticationAxios)
 
 
 
-// async function postMessage(e) {
-//     // Check if e is defined and has a preventDefault method
-//     e.preventDefault()
+/////<<<<<<send MEssages>>>>>>>>>.
 
-//     const message = document.getElementById("message").value;
-
-//     try {
-        
-//         const response = await authenticationAxios.post("/message", { message: message });
-//         alert("Message sent successfully");
-//     } catch (error) {
-//         console.error("Error sending message:", error);
-//     }
-// }
 
 const sendButton = document.querySelector(".send");
 
@@ -77,71 +88,10 @@ const sendButton = document.querySelector(".send");
     }
 })
 
+//<<<<<<<<end>>>>>>>>
 
 
 
-
-
-
-
-
-
-// async function getMessage(){
-//     try {
-                
-//         const response = await authenticationAxios.get("/message");
-//         const datas=response.data.rawMessages
-        
-// datas.forEach((data) => {
-//     const userId = data.userId;
-//     const message = data.message;
-//     const username = data.username;
-//     const dateTime = new Date(data.createdAt);
-//     const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, timeZoneName: 'short' };
-
-//     // Create a new list item
-//     const listItem = document.createElement('li');
-//     listItem.className = 'others_message'; // Assuming it's an others_message type, modify if needed
-
-//     // Create a paragraph element with the username, message, and date
-//     const paragraph = document.createElement('p');
-//     paragraph.className = 'message';
-
-//     // Create a span for the username
-//     const usernameSpan = document.createElement('span');
-//     usernameSpan.id='usernameSpan';
-//     usernameSpan.textContent = username;
-//     paragraph.appendChild(usernameSpan);
-
-//     // Add the message text
-//     const Usermessage= document.createElement('h5')
-// Usermessage.textContent=message
-// paragraph.appendChild(Usermessage);
-    
-
-//     // Create a span for the formatted date
-//     const dateSpan = document.createElement('span');
-//     dateSpan.textContent = dateTime.toLocaleString('en-US', options);
-//     paragraph.appendChild(dateSpan);
-
-//     // Append the paragraph to the list item
-//     listItem.appendChild(paragraph);
-
-//     // Append the list item to the message container
-//     const messageContainer = document.querySelector('.message_container');
-//     messageContainer.appendChild(listItem);
-//     console.log("DONE")
-// });
-        
-//     } catch (error) {
-//         console.error("Error sending message:", error);
-//     }
-
-// }
-
-
-// setInterval(getMessage, 1000)
-// setInterval(getMessage, 1000);
 
 function welcomeMessage(){
     const frist_time_visit=localStorage.getItem("visited")
@@ -171,19 +121,11 @@ logoutBtn.addEventListener("click",logout)
 
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    
-    welcomeMessage()
-    getMessage()
-    
-    
-})
-
 
     
 
 
-////
+//// decode Token////////////////////////////////////
 function parseJwt (token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -200,8 +142,13 @@ function parseJwt (token) {
 
 const tokenUserId=decode.userId
 
+/////////////////////// end decodeed token /////////////////////////////////////////////////
 
- async function getMessage() {
+///<<<<<<get ALL Message>>>>>>>>
+
+let lastMessageTimestamp = 0;
+
+async function getMessage() {
     try {
         const response = await authenticationAxios.get("/message");
         const datas = response.data.rawMessages;
@@ -210,52 +157,176 @@ const tokenUserId=decode.userId
             const userId = data.userId;
             const message = data.message;
             const username = data.username;
-            const dateTime = new Date(data.createdAt);
-            const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, timeZoneName: 'short' };
+            const timestamp = new Date(data.createdAt).getTime();
 
-            // Create a new list item
-            const listItem = document.createElement('li');
+            // Only process messages with a timestamp greater than the last processed message
+            if (timestamp > lastMessageTimestamp) {
+                // Update the last processed timestamp
+                lastMessageTimestamp = timestamp;
 
-            // Check if the user ID matches the specific user ID you passed
-            if (userId === tokenUserId) {
-                listItem.className = 'my_message';
-            } else {
-                listItem.className = 'others_message';
+                // Create a new list item
+                const listItem = document.createElement('li');
+
+                // Check if the user ID matches the specific user ID you passed
+                if (userId === tokenUserId) {
+                    listItem.className = 'my_message';
+                } else {
+                    listItem.className = 'others_message';
+                }
+
+                // Create a paragraph element with the username, message, and date
+                const paragraph = document.createElement('p');
+                paragraph.className = 'message';
+
+                // Create a span for the username
+                const usernameSpan = document.createElement('span');
+                usernameSpan.id = 'usernameSpan';
+                usernameSpan.textContent = username;
+                paragraph.appendChild(usernameSpan);
+
+                // Add the message text
+                const Usermessage = document.createElement('h5');
+                Usermessage.textContent = message;
+                paragraph.appendChild(Usermessage);
+
+                // Create a span for the formatted date
+                const dateSpan = document.createElement('span');
+                const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, timeZoneName: 'short' };
+                dateSpan.textContent = new Date(timestamp).toLocaleString('en-US', options);
+                paragraph.appendChild(dateSpan);
+
+                // Append the paragraph to the list item
+                listItem.appendChild(paragraph);
+
+                // Append the list item to the message container
+                const messageContainer = document.querySelector('.message_container');
+                messageContainer.appendChild(listItem);
+                console.log("DONE");
             }
-
-            // Create a paragraph element with the username, message, and date
-            const paragraph = document.createElement('p');
-            paragraph.className = 'message';
-
-            // Create a span for the username
-            const usernameSpan = document.createElement('span');
-            usernameSpan.id = 'usernameSpan';
-            usernameSpan.textContent = username;
-            paragraph.appendChild(usernameSpan);
-
-            // Add the message text
-            const Usermessage = document.createElement('h5');
-            Usermessage.textContent = message;
-            paragraph.appendChild(Usermessage);
-
-            // Create a span for the formatted date
-            const dateSpan = document.createElement('span');
-            dateSpan.textContent = dateTime.toLocaleString('en-US', options);
-            paragraph.appendChild(dateSpan);
-
-            // Append the paragraph to the list item
-            listItem.appendChild(paragraph);
-
-            // Append the list item to the message container
-            const messageContainer = document.querySelector('.message_container');
-            messageContainer.appendChild(listItem);
-            console.log("DONE");
         });
+        
 
     } catch (error) {
         console.error("Error sending message:", error);
     }
 }
 
+// Uncomment the following line to fetch messages every second
+setInterval(getMessage, 1000);
 
 
+////////////////////////   end here   ////////////////////////////////////////////////
+
+
+
+
+
+////////    profile section //////////////////////////////////
+const prifileBtn = document.getElementById("profile");
+    const pro=document.querySelector(".pro")
+pro.addEventListener("click",profile)
+    prifileBtn.addEventListener("click", profile );
+
+function profile()
+    {
+        const profile = document.getElementById("userProfile");
+        const heroright = document.querySelector(".heroright");
+        
+        heroright.classList.toggle("blur");
+        profile.classList.toggle("active");
+    }
+/////end profile////////////////////////////////
+
+
+
+
+    const topBtn=document.querySelector(".top");
+    topBtn.addEventListener("click", addNewGroup );
+    const remove=document.querySelector(".remove").addEventListener("click",addNewGroup );
+    
+function addNewGroup(){
+
+const addGroupMembers=document.querySelector(".addGroupMembers");
+addGroupMembers.classList.toggle("visible");
+const heroright = document.querySelector(".hero");
+heroright.classList.toggle("blur");
+
+
+
+}
+
+
+
+
+
+///all members
+
+async function getAllUsers(){
+
+try {
+
+    const response=await authenticationAxios.get("/allUsers");
+    console.log(response.data)
+    showAllusers(response.data.allUsers)
+    // console.log("gootted users")
+
+} catch (error) {
+    
+}
+
+
+}
+
+
+
+
+function showAllusers(userData){
+    const groupMemberDiv = document.getElementById("group-member");
+
+userData.forEach(user => {
+    const memberDiv = document.createElement("div");
+    memberDiv.classList.add("member");
+
+    const label = document.createElement("label");
+    label.setAttribute("for", `user-${user.id}`);
+    label.textContent = user.username;
+
+    const checkbox = document.createElement("input");
+    checkbox.setAttribute("type", "checkbox");
+    checkbox.setAttribute("id", `user-${user.id}`);
+    checkbox.setAttribute("value", user.id);
+
+    memberDiv.appendChild(label);
+    memberDiv.appendChild(checkbox);
+
+    groupMemberDiv.appendChild(memberDiv);
+});
+
+}
+
+//..........<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<allmembers <<<<<<<<<<<<<<<<<<
+
+
+
+function userProfilre(){
+    const tokenData= JSON.parse(localStorage.getItem('token'));
+    
+ const userProfileContainer=document.getElementById("userProfile")
+
+ const div=document.createElement("div")
+ div.className="userDetails"
+ const h3=document.createElement("h3")
+ h3.className="userName"
+ h3.textContent=tokenData.username
+const h4=document.createElement("h4")
+h4.className="phonenumber"
+h4.textContent=tokenData.phonenumber
+const h42=document.createElement("h4")
+h42.className="email"
+h42.textContent=tokenData.email;
+div.appendChild(h3)
+div.appendChild(h4)
+div.appendChild(h42)
+userProfileContainer.appendChild(div)
+
+}

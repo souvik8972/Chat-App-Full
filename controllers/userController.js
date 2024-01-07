@@ -156,3 +156,20 @@ exports.login=async(req,res)=>{
 
       //
       
+exports.getAllUsers = async (req, res) => {
+    const user = req.user;
+    
+    try {
+      const allUsers = await User.findAll({
+        where:{
+            id:{[Op.ne]:user.id}
+        },
+        attributes: ["id", "username"]
+      });
+  
+      res.status(200).json({ allUsers });
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };

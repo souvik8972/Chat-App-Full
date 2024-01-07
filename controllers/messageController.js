@@ -1,7 +1,8 @@
 const sequelize = require("../util/db");
-const MessageDb = require("../models/userMessage");
+const MessageDb = require("../models/ChatHistory");
 const User = require("../models/userDb");
-
+const { Op } = require("sequelize");
+ 
 exports.sendMessage = async (req, res) => {
   const user = req.user;
 
@@ -50,3 +51,6 @@ exports.getDashboard=(req,res)=>{
   res.sendFile("dashboard.html",{root:"views"})
   
 }
+
+
+

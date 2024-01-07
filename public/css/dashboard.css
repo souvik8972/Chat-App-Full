@@ -82,10 +82,12 @@ nav>.right>ul li:hover{
   
 }
 .heroleft{
-  width: 15%;
+  width: 19%;
   height: 100%;
-  background-color: #008170;
   
+  background-color: #e5e4e4;
+  border-radius: 10px;
+overflow: hidden;
   
   
 }
@@ -197,7 +199,7 @@ color: #00817075;
 margin: 10px;
 
 text-align: center;
-font-size:medium;
+font-size: xx-small;
 color: #888;
 }
 .input{
@@ -263,6 +265,262 @@ color: #008170;
 border-radius: 10%;
 
 }
-#usernameSpan{
-  margin-top: 0;
+.UserProfile{
+width: 15vw;
+height: 20vw;
+position: absolute;
+top:10vh;
+left:50vw;
+border-radius: 2vh;
+background-color: #fffdfe7a;
+box-shadow: 2px 2px 10px black;
+display: flex;
+flex-direction: column;
+justify-content: space-around;
+display: none;
+}
+.UserProfile .userPicture{
+width:5.2vw;
+height:5.2vw ;
+
+margin-left: auto ;
+margin-right: auto;
+
+background: #888;
+border-radius: 50%;
+}
+.UserProfile .userDetails{
+width: 100%;
+height: 10vh;
+
+font-size: medium;
+color:#008170;
+display: flex;
+flex-direction: column;
+gap: 10px;
+text-align: center;
+}
+.blur{
+filter: blur(1px);
+}
+.UserProfile i{
+
+margin-left: 12.3vw;
+font-size: large;
+}
+.active{
+display: block;
+}
+
+.top{
+background-color: #e5e4e4;
+height: 10vh;
+display: flex;
+
+
+}
+.top input{
+margin: auto;
+width: 70%;
+height: 40%;
+background-color: #389588;
+
+color: #fffcfc;
+box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.552);
+cursor: pointer;
+transition: all ease 0.7s;
+}
+.top input:hover {
+background-color: #fdfbfb;
+color: #008170;
+}
+.buttom{
+width: 90%;
+height: 110%;
+flex-wrap: wrap;
+margin: auto;
+
+margin-top: 10px;
+text-align: center;
+overflow-y: scroll;
+position: relative;
+
+}
+.buttom::-webkit-scrollbar{
+display: none;
+}
+.buttom ul{
+display: flex;
+justify-content: center;
+align-items: center;
+list-style: none;
+background-color: #f9f9f9;
+margin-bottom: 4px;
+word-wrap: break-word;
+height: 6vh;
+border-radius: 5px;
+text-align: center;
+transition: all ease 0.4s;
+
+}
+
+.buttom ul:hover li:nth-child(2){
+background-color:#008170e0;
+color: #fcfcfc;
+box-shadow: 1px 1px 4px black;
+cursor: pointer;
+}
+
+
+.buttom ul img{
+width: 5rex;
+margin-left: 0;
+height: 100%;
+border-radius: 50%;
+background-color: #008170;
+
+}
+
+.buttom ul li:nth-child(2){
+
+word-wrap: break-word;
+height: 100%;
+width: 100%;
+margin: auto;
+font-size:medium;
+color: #008170;
+
+text-align: center;
+border-left: 2px solid #008170;
+border-radius: 4px;
+
+}
+
+
+
+.heading-group{
+
+text-align: center;
+font-size: small;
+color: #389588;
+background-color: white;
+
+}
+
+
+.addGroupMembers{
+width: 40vh;
+min-height:70vh;
+display: flex;
+flex-direction: column;
+position: absolute;
+top:10vh;
+left:50vw;
+text-align: center;
+color:#008170;
+background: #eee;
+border-radius: 10px;
+visibility: hidden;
+transform-style: 10deg;
+transition: all ease 0.3s ;
+}
+.visible{
+visibility:visible;
+}
+.headingOf{
+
+font-size: 3rex;
+margin-bottom: 10px;
+}
+#groupName{
+width: 80%;
+
+margin: 0 auto;
+margin-bottom: 10px;
+
+
+text-align: center;
+
+}
+#group-member {
+width: 80%;
+max-height: 30vh;
+margin: 0 auto;
+margin-bottom: 10px;
+display: flex;
+flex-direction: column  ;
+overflow-y: scroll;
+
+justify-content: space-around;
+
+
+}
+
+
+#group-member input[type="checkbox"] {
+display: inline-block;
+
+ /* Adjust the margin as needed for spacing */
+}
+
+#group-member label {
+display: inline-block;
+margin-right: 15vh;
+font-size: 2rex; /* Adjust the margin as needed for spacing */
+}
+.member{
+width: 90%;
+background-color: #e5e4e4ad;
+margin-bottom: 8px;
+color:#008170;
+
+}
+#add-member{
+
+background:#008170;
+color: #eee;
+width: 50%;
+cursor: pointer;
+margin:0 auto;
+margin-bottom: 20px;
+}
+#add-member:hover{
+background-color: #FFFFFF;
+color: #008170;
+}
+#description{
+height: 3vh;
+width: 80%;
+margin: 0 auto;
+margin-top: 1vh;
+text-align: center;
+}
+#create-button{
+margin: auto;
+padding: 5px;
+border-radius: 10px;
+border: transparent solid;
+background-color: #008170;
+color:#fff ;
+box-shadow: 2px 2px 4px black;
+}
+
+
+#create-button:hover{
+background-color: #FFFFFF;
+color: #008170;
+}
+
+.addGroupMembers i{
+position: absolute;
+right: 2vh;
+top:1vh;
+font-size: x-large;
+cursor: pointer;
+background-color: #008170;
+color: #f9f9f9;
+}
+.addGroupMembers i:hover{
+background-color: #e5e4e4;
+color: #008170;
 }

@@ -19,7 +19,7 @@
         <div class="right">
           <ul>
               <li>home</li>
-            <li>Profile</li>
+            <li id="profile">Profile</li>
             <li id="logout">log out</li>
             
           </ul>
@@ -31,10 +31,14 @@
         <div class="heroleft">
 
             <div class="top">
-                
+                <input type="button" value="Add New Group +">
             </div>
+            <h2 class="heading-group">All Groups</h2>
             <div class="buttom">
-                
+                <ul class="groups-list">
+                    <li><img src="" alt=""></li>
+                    <li id="group-name">Common Name</li>
+                </ul>
 
             </div>
 
@@ -101,6 +105,52 @@
 
 
       </div>
+      <!-- user profile -->
+      <div class="UserProfile" id="userProfile">
+        <i class="ri-contract-left-right-line pro"></i>
+        <div class="userPicture">
+                    <img src="" alt="">
+        </div>
+        <!-- <div class="userDetails">
+            <h3 class="username">Souvik Das</h3>
+            <h4 class="phonenumber">8972816056</h4>
+            <h4 class="email">souvik@gmail.com</h4>
+
+        </div> -->
+
+
+      </div>
+
+
+      <form class="addGroupMembers" method="post">
+        <i class="ri-contract-left-right-line remove"></i>
+        <div class="headingOf">
+            Create Group
+        </div>
+        <label id="groupName1" for="groupName">Group Name</label>
+        <input type="text" name="groupName" id="groupName">
+        <!-- all users will appare here -->
+    <div class="allUsers">
+        <label for="group-members" id="add-member"> Add Members +</label>
+        <div id="group-member" class="active">
+            
+            
+    
+    
+        </div>
+        
+    </div>    
+        <label for="description">Add Description</label>
+        <textarea name="description" id="description" cols="30" rows="5"></textarea>
+    
+        <input id="create-button" type="button" value="Create Group">
+    
+    
+    
+    </form>  
+
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 
       <script src="/js/dashboard.js"></script>
