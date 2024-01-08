@@ -1,22 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     welcomeMessage()
     getMessage()
     getAllUsers();
     userProfilre()
-    
-    
+    GetMygroups()//show groups
+
 })
 
 
 
+// >>>>>>>>>
+const logoutBtn = document.getElementById("logout")
+logoutBtn.addEventListener("click", logout)
+const authenticationAxios = authentication()
+const sendButton = document.querySelector(".send");
+const tokenData = JSON.parse(localStorage.getItem('token'));
+const token = tokenData.token
+const decode = parseJwt(token)
+let lastMessageTimestamp = 0;
 
-
-
-
-
-
-
+const tokenUserId = decode.userId
+setInterval(getMessage, 1000);
+const prifileBtn = document.getElementById("profile");
+const pro = document.querySelector(".pro")
+pro.addEventListener("click", profile)
+prifileBtn.addEventListener("click", profile);
+const topBtn = document.querySelector(".top");
+topBtn.addEventListener("click", addNewGroup);
+const remove = document.querySelector(".remove").addEventListener("click", addNewGroup);
+document.getElementById('create-button').addEventListener('click', createGroup);
 
 //<<<<<authntication>>>>>>>>>>>>>>.
 
@@ -24,67 +37,60 @@ document.addEventListener("DOMContentLoaded", () => {
 function authentication() {
     const tokenData = JSON.parse(localStorage.getItem('token'));
     // console.log('Token Data:', tokenData);
- 
+
     let token;
- 
+
     if (tokenData) {
-       if (typeof tokenData === 'object') {
-          token = tokenData.token;
-       } else {
-          // If tokenData is not an object, assume it's the actual token value
-          token = tokenData;
-       }
- 
-       // console.log(token, "ttttt");
- 
-       // Return the authenticated axios instance
-       const authaxis = axios.create({
-          // baseURL: 'http://localhost:8080',
-          headers: {
-             'Authorization': `Bearer ${token}`,
-          },
-       });
- 
-       return authaxis;
+        if (typeof tokenData === 'object') {
+            token = tokenData.token;
+        } else {
+            // If tokenData is not an object, assume it's the actual token value
+            token = tokenData;
+        }
+
+        // console.log(token, "ttttt");
+
+        // Return the authenticated axios instance
+        const authaxis = axios.create({
+            // baseURL: 'http://localhost:8080',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        return authaxis;
     } else {
-       window.location.href = "/";
-       alert("Please log in first");
-       
+        window.location.href = "/";
+        alert("Please log in first");
+
     }
- }
- 
-
- const authenticationAxios=authentication()
-
-
-console.log(authenticationAxios)
-
+}
 
 
 
 /////<<<<<<send MEssages>>>>>>>>>.
 
 
-const sendButton = document.querySelector(".send");
 
 
-    sendButton.addEventListener("click",async (e)=>{
-        {
-            // Check if e is defined and has a preventDefault method
-            e.preventDefault()
-        
-            const messageInput = document.getElementById("message");
-    const message = messageInput.value;
-        
-            try {
-                
-                const response = await authenticationAxios.post("/message", { message: message });
-                
-                messageInput.value=""
-                
-            } catch (error) {
-                console.error("Error sending message:", error);
-            }
+
+sendButton.addEventListener("click", async (e) => {
+    {
+        // Check if e is defined and has a preventDefault method
+        e.preventDefault()
+
+        const messageInput = document.getElementById("message");
+        const message = messageInput.value;
+
+        try {
+
+            const response = await authenticationAxios.post("/message", { message: message });
+
+            messageInput.value = ""
+
+        } catch (error) {
+            console.error("Error sending message:", error);
+        }
     }
 })
 
@@ -93,60 +99,45 @@ const sendButton = document.querySelector(".send");
 
 
 
-function welcomeMessage(){
-    const frist_time_visit=localStorage.getItem("visited")
-    const tokenData= JSON.parse(localStorage.getItem('token'));
-    const name=tokenData.username
-    if(!frist_time_visit){
-        alert("welcome "+name)
-        const li=document.createElement("li")
-        li.className="feedback"
-        li.innerText=`${name} joined`
-        const message_container=document.querySelector(".message_container")
+function welcomeMessage() {
+    const frist_time_visit = localStorage.getItem("visited")
+    const tokenData = JSON.parse(localStorage.getItem('token'));
+    const name = tokenData.username
+    if (!frist_time_visit) {
+        alert("welcome " + name)
+        const li = document.createElement("li")
+        li.className = "feedback"
+        li.innerText = `${name} joined`
+        const message_container = document.querySelector(".message_container")
         message_container.appendChild(li)
-        localStorage.setItem("visited",true)
+        localStorage.setItem("visited", true)
     }
 
 }
-function logout(){
+function logout() {
     localStorage.removeItem("token")
     localStorage.removeItem("visited")
-    window.location.href="/"
+    window.location.href = "/"
 }
 
 
-
-const logoutBtn=document.getElementById("logout")
-logoutBtn.addEventListener("click",logout)
-
-
-
-
-    
-
-
 //// decode Token////////////////////////////////////
-function parseJwt (token) {
+function parseJwt(token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
- 
-    return JSON.parse(jsonPayload);
- }
- const tokenData= JSON.parse(localStorage.getItem('token'));
- const token = tokenData.token
- const decode=parseJwt(token)
- console.log("jkkkk",decode.userId)
 
-const tokenUserId=decode.userId
+    return JSON.parse(jsonPayload);
+}
+
 
 /////////////////////// end decodeed token /////////////////////////////////////////////////
 
 ///<<<<<<get ALL Message>>>>>>>>
 
-let lastMessageTimestamp = 0;
+
 
 async function getMessage() {
     try {
@@ -204,7 +195,7 @@ async function getMessage() {
                 console.log("DONE");
             }
         });
-        
+
 
     } catch (error) {
         console.error("Error sending message:", error);
@@ -212,7 +203,7 @@ async function getMessage() {
 }
 
 // Uncomment the following line to fetch messages every second
-setInterval(getMessage, 1000);
+
 
 
 ////////////////////////   end here   ////////////////////////////////////////////////
@@ -222,34 +213,28 @@ setInterval(getMessage, 1000);
 
 
 ////////    profile section //////////////////////////////////
-const prifileBtn = document.getElementById("profile");
-    const pro=document.querySelector(".pro")
-pro.addEventListener("click",profile)
-    prifileBtn.addEventListener("click", profile );
 
-function profile()
-    {
-        const profile = document.getElementById("userProfile");
-        const heroright = document.querySelector(".heroright");
-        
-        heroright.classList.toggle("blur");
-        profile.classList.toggle("active");
-    }
+
+function profile() {
+    const profile = document.getElementById("userProfile");
+    const heroright = document.querySelector(".heroright");
+
+    heroright.classList.toggle("blur");
+    profile.classList.toggle("active");
+}
 /////end profile////////////////////////////////
 
 
 
 
-    const topBtn=document.querySelector(".top");
-    topBtn.addEventListener("click", addNewGroup );
-    const remove=document.querySelector(".remove").addEventListener("click",addNewGroup );
-    
-function addNewGroup(){
 
-const addGroupMembers=document.querySelector(".addGroupMembers");
-addGroupMembers.classList.toggle("visible");
-const heroright = document.querySelector(".hero");
-heroright.classList.toggle("blur");
+
+function addNewGroup() {
+
+    const addGroupMembers = document.querySelector(".addGroupMembers");
+    addGroupMembers.classList.toggle("visible");
+    const heroright = document.querySelector(".hero");
+    heroright.classList.toggle("blur");
 
 
 
@@ -261,46 +246,46 @@ heroright.classList.toggle("blur");
 
 ///all members
 
-async function getAllUsers(){
+async function getAllUsers() {
 
-try {
+    try {
 
-    const response=await authenticationAxios.get("/allUsers");
-    console.log(response.data)
-    showAllusers(response.data.allUsers)
-    // console.log("gootted users")
+        const response = await authenticationAxios.get("/allUsers");
+        console.log(response.data)
+        showAllusers(response.data.allUsers)
+        // console.log("gootted users")
 
-} catch (error) {
-    
+    } catch (error) {
+
+    }
+
+
 }
 
 
-}
 
 
-
-
-function showAllusers(userData){
+function showAllusers(userData) {
     const groupMemberDiv = document.getElementById("group-member");
 
-userData.forEach(user => {
-    const memberDiv = document.createElement("div");
-    memberDiv.classList.add("member");
+    userData.forEach(user => {
+        const memberDiv = document.createElement("div");
+        memberDiv.classList.add("member");
 
-    const label = document.createElement("label");
-    label.setAttribute("for", `user-${user.id}`);
-    label.textContent = user.username;
+        const label = document.createElement("label");
+        label.setAttribute("for", `user-${user.id}`);
+        label.textContent = user.username;
 
-    const checkbox = document.createElement("input");
-    checkbox.setAttribute("type", "checkbox");
-    checkbox.setAttribute("id", `user-${user.id}`);
-    checkbox.setAttribute("value", user.id);
+        const checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.setAttribute("id", `user-${user.id}`);
+        checkbox.setAttribute("value", user.id);
 
-    memberDiv.appendChild(label);
-    memberDiv.appendChild(checkbox);
+        memberDiv.appendChild(label);
+        memberDiv.appendChild(checkbox);
 
-    groupMemberDiv.appendChild(memberDiv);
-});
+        groupMemberDiv.appendChild(memberDiv);
+    });
 
 }
 
@@ -308,25 +293,196 @@ userData.forEach(user => {
 
 
 
-function userProfilre(){
-    const tokenData= JSON.parse(localStorage.getItem('token'));
+function userProfilre() {
+    const tokenData = JSON.parse(localStorage.getItem('token'));
+
+    const userProfileContainer = document.getElementById("userProfile")
+
+    const div = document.createElement("div")
+    div.className = "userDetails"
+    const h3 = document.createElement("h3")
+    h3.className = "userName"
+    h3.textContent = tokenData.username
+    const h4 = document.createElement("h4")
+    h4.className = "phonenumber"
+    h4.textContent = tokenData.phonenumber
+    const h42 = document.createElement("h4")
+    h42.className = "email"
+    h42.textContent = tokenData.email;
+    div.appendChild(h3)
+    div.appendChild(h4)
+    div.appendChild(h42)
+    userProfileContainer.appendChild(div)
+
+}
+
+
+
+
+//<<<<<<<<<<<create Group>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+async function createGroup() {
+    try {
+        const groupNameInput = document.getElementById('groupName');
+        const descriptionInput = document.getElementById('description');
+        // Trim to remove leading and trailing spaces
+        const groupName = groupNameInput.value.trim();
+        let selectedUser = getSelectedUsers();
+        const description = descriptionInput.value;
+
+        // Check if groupName is empty
+        if (!groupName) {
+            alert('Group Name cannot be empty');
+            return;
+        }
+        if (selectedUser.length < 1) {
+            alert("please add some members to the group")
+            return
+        }
+        const numOfmember = selectedUser.length + 1
+        const data = {
+            name: groupName,
+            membersNo: numOfmember,
+            membersIds: selectedUser
+
+        }
+
+        const response = await authenticationAxios.post("/createGroup", data)
+        
+        GetMygroups()//show groups
+        console.log(response.data.message)
+        groupNameInput.value = '';
+        descriptionInput.value = '';
+        // Continue with further actions+
+
+        alert('Create Group Successful');
+        // console.log(selectedUser);
+        // console.log(groupName);
+        // console.log(description);
+        // console.log(numOfmember)
+
+        // Add your logic to send data to the backend or perform other actions
+
+    } catch (error) {
+        console.error('Error:', error.message);
+        if (error.response && error.response.data) {
+            // If the server responds with a specific error message
+            alert(`Error: ${error.response.data.message}`);
+        } else {
+            // If it's a generic error or network issue
+            alert('An error occurred. Please try again later.');
+        }
+    }
+}
+
+
+function getSelectedUsers() {
+    const checkboxes = document.querySelectorAll('#group-member input[type="checkbox"]:checked');
+    const selectedUserIds = Array.from(checkboxes).map(checkbox => checkbox.value);
+    return selectedUserIds;
+}
+
+
+////////////////////////////////        
+
+
+// <><<<<<<<<<<show my groups>>>>>>
+function showGroups(groups) {
+    const groupsContainer = document.querySelector('.buttom');
+
+    // Clear existing content
+    groupsContainer.innerHTML = '';
+
+    groups.forEach(group => {
+        const groupList = document.createElement('ul');
+        groupList.classList.add('groups-list');
+
+        const groupItem = document.createElement('li');
+        groupItem.innerHTML = `
+            
+            <span class="group-name" id="${group.id}">${group.name}</span>
+        `;
+        groupList.addEventListener('click', function () {
+            const groupid = group.id;
+            groupById (groupid)
+            console.log('Clicked on group with id:', groupid);
+            // You can perform additional actions or call a function here with the groupId
+        });
+        
+
+        groupList.appendChild(groupItem);
+        groupsContainer.appendChild(groupList);
+    });
     
- const userProfileContainer=document.getElementById("userProfile")
+}
 
- const div=document.createElement("div")
- div.className="userDetails"
- const h3=document.createElement("h3")
- h3.className="userName"
- h3.textContent=tokenData.username
-const h4=document.createElement("h4")
-h4.className="phonenumber"
-h4.textContent=tokenData.phonenumber
-const h42=document.createElement("h4")
-h42.className="email"
-h42.textContent=tokenData.email;
-div.appendChild(h3)
-div.appendChild(h4)
-div.appendChild(h42)
-userProfileContainer.appendChild(div)
 
+
+
+async function GetMygroups() {
+    try {
+
+        const response = await authenticationAxios.get("/getMyGroups")
+        console.log(response.data.groups)
+        showGroups(response.data.groups)
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+
+
+////////////////////////////////////////////////////////////////////////
+
+function updateHeroSection(groupData) {
+    const groupNameElement = document.querySelector('.group-name-dashboard');
+    const groupMemberElement = document.querySelector('.group-member-dashboard');
+    const messageContainerElement = document.querySelector('.message_container');
+    
+    // Update group name and member count
+    groupNameElement.textContent = groupData.name;
+    groupMemberElement.textContent = `${groupData.membersNo} members`;
+
+    // Clear existing messages
+    messageContainerElement.innerHTML = '';
+
+    // Assuming messages is an array of messages in groupData
+    groupData.messages.forEach(message => {
+        const li = document.createElement('li');
+        li.classList.add(message.type);
+
+        const p = document.createElement('p');
+        p.classList.add('message');
+        p.innerHTML = `
+            <span>${message.sender}</span>
+            ${message.content}
+            <span>${message.timestamp}</span>
+        `;
+
+        li.appendChild(p);
+        messageContainerElement.appendChild(li);
+    });
+}
+
+// Example usage:
+
+
+updateHeroSection(exampleGroupData);
+
+
+async function groupById(id) {
+    try {
+        const response = await authenticationAxios.get(`getGroupById?groupid=${id}`);
+        updateHeroSection(response.data.group);
+        console.log(response.data.group);
+    } catch (error) {
+        console.log(error);
+    }
 }

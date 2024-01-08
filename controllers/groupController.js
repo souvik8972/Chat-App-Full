@@ -38,3 +38,32 @@ exports.getAllGroups=async(req,res)=>{
         res.status(500).json({ message: 'Failed to get groups', error})
     }
 }
+
+exports.getMygroups = async (req, res, next) => {
+    try {
+        const user = req.user;
+        const groups = await user.getGroups();
+        return res.status(200).json({ groups, message: "All groups succesfully fetched" })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: 'Internal Server error!' })
+    }
+}
+
+exports.getGroupId=async(req,res)=>{
+    const groupId=req.query.groupid
+    try {
+
+        const group=await Group.findOne({
+            where:{
+                id: groupId
+            }
+        })
+        res.status(200).json({group})
+        
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server error!', error: error})
+        
+    }
+}

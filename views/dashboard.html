@@ -18,7 +18,7 @@
         <div class="left"><i class="ri-token-swap-line"></i>Kotha Barta</div>
         <div class="right">
           <ul>
-              <li>home</li>
+              <li><a href="/">Home</a></li>
             <li id="profile">Profile</li>
             <li id="logout">log out</li>
             
@@ -27,7 +27,7 @@
         <i class="ri-menu-line menu"></i>
       </nav>
       <div class="hero">
-
+<!-- left -->
         <div class="heroleft">
 
             <div class="top">
@@ -35,10 +35,19 @@
             </div>
             <h2 class="heading-group">All Groups</h2>
             <div class="buttom">
-                <ul class="groups-list">
+                <!-- <ul class="groups-list">
                     <li><img src="" alt=""></li>
+                        <span class="group-name" data-group-id=9"></span>
                     <li id="group-name">Common Name</li>
                 </ul>
+                <ul class="groups-list">
+                    <li><img src="" alt=""></li>
+                    <li id="group-name">2nd Name</li>
+                </ul>
+                <ul class="groups-list">
+                    <li><img src="" alt=""></li>
+                    <li id="group-name">3rd Name</li>
+                </ul> -->
 
             </div>
 
@@ -48,12 +57,12 @@
 
 
 
-
+<!-- right -->
         <div class="heroright">
             <div class="heading">
                 <div class="group-img"><img src="" alt="" srcset=""></div>
-                <div class="group-name"> Group name</div>
-                <div class="group-member">5 members</div>
+                <div class="group-name-dashboard"> Group name</div>
+                <div class="group-member-dashboard">5 members</div>
                 <div class="edit-button"><i class="ri-pencil-line"></i></div>
             </div>
             <div class="view_message">
@@ -128,11 +137,11 @@
             Create Group
         </div>
         <label id="groupName1" for="groupName">Group Name</label>
-        <input type="text" name="groupName" id="groupName">
+        <input type="text" name="groupName" id="groupName" required>
         <!-- all users will appare here -->
     <div class="allUsers">
         <label for="group-members" id="add-member"> Add Members +</label>
-        <div id="group-member" class="active">
+        <div id="group-member">
             
             
     
@@ -143,7 +152,8 @@
         <label for="description">Add Description</label>
         <textarea name="description" id="description" cols="30" rows="5"></textarea>
     
-        <input id="create-button" type="button" value="Create Group">
+        <input id="create-button" type="button"  value="Create Group">
+        
     
     
     

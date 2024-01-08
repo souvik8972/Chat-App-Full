@@ -15,7 +15,7 @@ const GroupMember = require("./models/group-members")
 
 ////routes
 const userRoute = require("./routes/user")
-const messageRoute = require("./routes/AllFunction")
+const messageRoute = require("./routes/messageRoute")
 const groupRoute=require("./routes/groupRoute")
 
 

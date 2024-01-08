@@ -85,7 +85,7 @@ nav>.right>ul li:hover{
   width: 19%;
   height: 100%;
   
-  background-color: #e5e4e4;
+  background-color: #ffffff;
   border-radius: 10px;
 overflow: hidden;
   
@@ -97,7 +97,7 @@ overflow: hidden;
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #c4c6c6;
+  background-color: #ffffff;
   margin: auto;
   margin-top: 0;
   justify-content: space-between;
@@ -136,7 +136,7 @@ background:#008170;
   overflow-y: scroll;
   scroll-behavior: smooth;
   border-radius: 10px;
-
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 }
 
 .heroright .view_message:-webkit-scrollbar{
@@ -173,7 +173,7 @@ list-style: none;
 
 .message_container .my_message{
 
-background-color:#ffffff;
+  box-shadow: rgba(1, 103, 9, 0.44) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 margin: 10px;
 width: max-content;
 align-self: flex-end;
@@ -256,7 +256,7 @@ width: 100%;
 
 }
 .heading .edit-button{
-background-color: #fcfcfc;
+  background-color: #ffffff;
 width: 30px;
 margin-right: 30px;
 height: 30px;
@@ -272,7 +272,7 @@ position: absolute;
 top:10vh;
 left:50vw;
 border-radius: 2vh;
-background-color: #fffdfe7a;
+background-color: #ffffff;
 box-shadow: 2px 2px 10px black;
 display: flex;
 flex-direction: column;
@@ -286,7 +286,7 @@ height:5.2vw ;
 margin-left: auto ;
 margin-right: auto;
 
-background: #888;
+background-color: #ffffff;
 border-radius: 50%;
 }
 .UserProfile .userDetails{
@@ -313,7 +313,8 @@ display: block;
 }
 
 .top{
-background-color: #e5e4e4;
+  background-color: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(199, 192, 192, 0.2) 0px -3px 0px inset;
 height: 10vh;
 display: flex;
 
@@ -331,7 +332,7 @@ cursor: pointer;
 transition: all ease 0.7s;
 }
 .top input:hover {
-background-color: #fdfbfb;
+  background-color: #ffffff;
 color: #008170;
 }
 .buttom{
@@ -344,6 +345,7 @@ margin-top: 10px;
 text-align: center;
 overflow-y: scroll;
 position: relative;
+box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 
 }
 .buttom::-webkit-scrollbar{
@@ -354,7 +356,8 @@ display: flex;
 justify-content: center;
 align-items: center;
 list-style: none;
-background-color: #f9f9f9;
+background-color: #c3c2c231;
+box-shadow: 1px 1px 4px black;
 margin-bottom: 4px;
 word-wrap: break-word;
 height: 6vh;
@@ -365,8 +368,8 @@ transition: all ease 0.4s;
 }
 
 .buttom ul:hover li:nth-child(2){
-background-color:#008170e0;
-color: #fcfcfc;
+background-color:#ffffffe0;
+
 box-shadow: 1px 1px 4px black;
 cursor: pointer;
 }
@@ -403,7 +406,7 @@ border-radius: 4px;
 text-align: center;
 font-size: small;
 color: #389588;
-background-color: white;
+background-color: #ffffff;
 
 }
 
@@ -418,7 +421,7 @@ top:10vh;
 left:50vw;
 text-align: center;
 color:#008170;
-background: #eee;
+background-color: #e0e0e0;
 border-radius: 10px;
 visibility: hidden;
 transform-style: 10deg;
@@ -470,7 +473,7 @@ font-size: 2rex; /* Adjust the margin as needed for spacing */
 }
 .member{
 width: 90%;
-background-color: #e5e4e4ad;
+background-color: #ffffff;
 margin-bottom: 8px;
 color:#008170;
 
@@ -523,4 +526,23 @@ color: #f9f9f9;
 .addGroupMembers i:hover{
 background-color: #e5e4e4;
 color: #008170;
+}
+
+.groups-list{
+  cursor: pointer;
+}
+.groups-list:hover{
+  background-color: #fff;
+  color: #008170;
+  margin-bottom: 10px;
+  transition: all ease 0.2s;
+  box-shadow: 0 0 .9px black ;
+  padding: 7px 0;
+}
+
+.heroleft{
+  overflow-y: scroll;
+  overflow: hidden;
+
+
 }
