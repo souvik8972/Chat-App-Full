@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     getAllUsers();
     userProfilre()
     GetMygroups()//show groups
-    getGroupMessage()
+    // getGroupMessage()
 
 })
 
@@ -368,28 +368,45 @@ function getSelectedUsers() {
 
 ////////////////////////////////        
 
-
+const heroimgOpacity=document.querySelector(".heroimg")
 // <><<<<<<<<<<show my groups>>>>>>
 // Modified showGroups function to attach click event listeners
 function showGroups(groups) {
     const groupsContainer = document.querySelector('.buttom');
-
+    const heroright=document.querySelector(".heroright")
     // Clear existing content
     groupsContainer.innerHTML = '';
     groups.forEach(group => {
         const groupList = document.createElement('ul');
         groupList.classList.add('groups-list');
 
-        const groupItem = document.createElement('li');
-        groupItem.innerHTML = `
-            <span class="group-name" id="${group.id}">${group.name}</span>
+        
+        
+        // Set the image source based on your requirements
+        
+        groupList.innerHTML = `
+        
+                    <li id="img" ><img src="" alt="."></li>
+                    <span class="group-name" id="${group.id}"></span>
+                    <li id="group-name">${group.name}</li>
+            
+            
         `;
 
         // Attach click event listener to each group
         groupList.addEventListener('click',async function () {
+            const allGroupsLists = document.querySelectorAll('.groups-list');
+            allGroupsLists.forEach(list => {
+                list.classList.remove('activeGroup');
+            });
+
+            // Add "active" class to the clicked groups-list
+            groupList.classList.add('activeGroup');
+            heroimgOpacity.classList.add("heroimgOpacity")
+            heroright.classList.add("heroRightActive")
             const groupid = group.id;
         const input=document.querySelector('.input');
-        input.id = groupid;
+    input.id = groupid;
             const response = await authenticationAxios.get(`getGroupById?groupid=${groupid}`);
             console.log('Clicked on group with id:', groupid);
             updateHeroSection(response.data.group);
@@ -397,9 +414,10 @@ function showGroups(groups) {
             
             
         });
-
-        groupList.appendChild(groupItem);
+    
+    
         groupsContainer.appendChild(groupList);
+        
     })
 
     
@@ -411,7 +429,7 @@ async function GetMygroups() {
     try {
 
         const response = await authenticationAxios.get("/getMyGroups")
-        console.log(response.data.groups)
+        // console.log(response.data.groups)
         showGroups(response.data.groups)
 
     } catch (error) {
@@ -514,7 +532,8 @@ async function getGroupMessage() {
                 const messageContainer = document.querySelector('.message_container');
                 messageContainer.appendChild(listItem);
                 console.log("DONE");
-            
+                scrollButton()
+                
         });
 
     } catch (error) {
@@ -522,7 +541,12 @@ async function getGroupMessage() {
     }
 }
 
-async function sendMesage(e){
+
+    
+        /////<<<<<<send MEssages>>>>>>>>>.
+
+
+        async function sendMesage(e){
     
             // Check if e is defined and has a preventDefault method
             e.preventDefault()
@@ -550,12 +574,8 @@ async function sendMesage(e){
             } catch (error) {
                 console.error("Error sending message:", error);
             }
+            
         }
-    
-        /////<<<<<<send MEssages>>>>>>>>>.
-
-
-
 
 
 sendButton.addEventListener("click",sendMesage)
@@ -575,3 +595,35 @@ function scrollButton() {
     messageContainer.scrollTop = messageContainer.scrollHeight;
   }
   
+
+
+
+  ////
+
+//   scroll
+const sr = ScrollReveal({
+    origin: 'top',
+    distance: '80px',
+    duration: 2000,
+    reset: true     
+})
+
+/* -- HOME -- */
+sr.reveal('.nav',{})
+sr.reveal('.hero',{delay: 100})
+sr.reveal('.heroleft',{delay: 200})
+
+
+
+const st = ScrollReveal({
+    origin: 'left',
+    distance: '80px',
+    duration: 2000,
+    opacity:0.3,
+    reset: true     
+})
+st.reveal('.heroimg',{delay: 200})
+
+
+
+///driver

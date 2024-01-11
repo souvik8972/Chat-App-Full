@@ -73,6 +73,14 @@ nav>.right>ul li:hover{
 .menu{
   display: none;
 }
+.home a{
+  list-style: none;
+  text-decoration: none;
+  color: #008170;
+}
+.home a:hover{
+  color: #fff;
+}
 .hero{
   width: 100%;
   height: 80vh;
@@ -100,7 +108,7 @@ overflow: hidden;
   background-color: #ffffff;
   margin: auto;
   margin-top: 0;
-  justify-content: space-between;
+  justify-content: space-around;
   border-radius: 20px 20px 0 0;
 
 }
@@ -135,7 +143,8 @@ background:#008170;
   margin: auto;
   overflow-y: scroll;
   scroll-behavior: smooth;
-  border-radius: 10px;
+  border-radius: 0 10px 10px 10px;
+  background-color: transparent;
   box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 }
 
@@ -152,7 +161,7 @@ background:#008170;
 height: 100%;
 display: flex;
 flex-direction: column;
-
+background-color:transparent;
 margin-top: 20px;
 
 }
@@ -181,9 +190,10 @@ word-wrap: break-word;
 margin-top: 2vh;
 padding: 10px 12px;
 
-border-radius: 25px 20px 0px 20px;
+border-radius: 20px 20px 0px 20px;
 color:#389588;
 list-style: none;
+transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transition:  2s cubic-bezier(0.5, 0, 0, 1) 0.2s, transform 2s cubic-bezier(0.5, 0, 0, 1) 0.2s;
 }
 .message_container .others_message p span,.message_container .my_message p span{
 display: flex;
@@ -227,6 +237,7 @@ display: flex;
 justify-content:space-around;
   
 }
+
 .input .send i{
 background-color: #008170;
 padding: 10px;
@@ -235,12 +246,16 @@ align-items: end;
 color: #FFFFFF;
 
 }
+.input .send i:hover{
+  background-color: #e5e4e4;
+  color: #008170;
+}
 .heroright .heading{
 width: 100%;
 height: 10%;
 background-color: #389588;
 display: flex;
-justify-content: space-between;
+justify-content: space-around;
 align-items: center;
 border-radius: 10px 10px 0 0;
 
@@ -325,7 +340,7 @@ margin: auto;
 width: 70%;
 height: 40%;
 background-color: #389588;
-
+border-radius: 2vw;
 color: #fffcfc;
 box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.552);
 cursor: pointer;
@@ -480,17 +495,15 @@ color:#008170;
 }
 #add-member{
 
-background:#008170;
-color: #eee;
+
+color:#008170;
 width: 50%;
-cursor: pointer;
+
 margin:0 auto;
-margin-bottom: 20px;
+margin-bottom: 30px;
+
 }
-#add-member:hover{
-background-color: #FFFFFF;
-color: #008170;
-}
+
 #description{
 height: 3vh;
 width: 80%;
@@ -506,6 +519,7 @@ border: transparent solid;
 background-color: #008170;
 color:#fff ;
 box-shadow: 2px 2px 4px black;
+border-radius: 1vw;
 }
 
 
@@ -545,4 +559,85 @@ color: #008170;
   overflow: hidden;
 
 
+}
+.heroright{
+  transition: all ease 0.6s;
+  max-height: 70vh;
+  display: none;
+  background-color: transparent;
+
+}
+.heroRightActive{
+  transition: all ease 0.5s;
+  display: block;
+  
+}
+
+.buttom .groups-list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  justify-content: space-evenly;
+  justify-content:flex-start;
+
+}
+.buttom .groups-list:hover{
+  padding: 6px 20px ;
+}
+.buttom .groups-list li:nth-child(1){
+  width: 40px;
+  height: 40px;
+
+align-items: center;
+
+
+
+
+}
+.buttom .groups-list li img{
+  width: 100%;
+  height: 100%;
+  margin-top: 1.3vh;
+}
+
+.buttom .groups-list li:nth-child(3){
+  margin-left: 3vw;
+
+}
+
+
+
+
+.buttom .activeGroup{
+background-color:#00817096;
+
+border-radius: .8vw;
+
+}
+
+
+.heading{color: #f9f9f9;}
+
+
+
+.heroimg{
+  width: 77vw;
+  height:77vh;
+  
+  position: absolute;
+  right: 0;
+  top:20vh;
+  background: url("./img/Curious.png");
+background-size:contain;
+background-repeat: no-repeat;
+background-position: center;
+z-index: -1;
+
+
+}
+.heroimgOpacity{
+  opacity: 0.4;
+}
+.message_container{
+  background:transparent;
 }

@@ -4,7 +4,7 @@ const jwt=require("jsonwebtoken")
 require("dotenv").config()
 const secretKey=process.env.SECRET_KEY
 const { Op } = require("sequelize");
-
+const Group = require("../models/groupDb");
 
 exports.signup = async (req, res) => {
     const { username, email, phonenumber, password, confpassword } = req.body;
@@ -78,50 +78,69 @@ exports.signup = async (req, res) => {
 
 
 
-exports.login=async(req,res)=>{
+
+exports.login = async (req, res) => {
     try {
-        const {email,password} = req.body
-        //checking is user present or not
-        const user=await User.findAll({
-            where:{
-                email:email
+        const { email, password } = req.body;
+
+        // checking if the user is present or not
+        const user = await User.findAll({
+            where: {
+                email: email
             }
-        })
-        //if user not  present
-        if (user.length==0){
+        });
+
+        // if user not present
+        if (user.length == 0) {
             res.status(404).json({ status: "error", error: "Email not found" });
+        } else {
+            // if user present
+            // compare password using bcrypt.compare user-entered password and saved password in the database
+            const passwordEncoded = await bcrypt.compare(password, user[0].password);
 
-        }else{
-           
-            //if user present
-            //compare password by using bcrypt.compare  user inter password and save password in database
-            const passwordEncoded =await bcrypt.compare(password,user[0].password)
-            //if matches password
-            if (passwordEncoded){
-                //creating a token by using jwt.sign() and passing user is ,name ,isprime and that will expire in 5 days
-                const token = jwt.sign({ userId: user[0].id,name:user[0].username}, secretKey, { expiresIn: "5d" });
-    //sending user as response
-    res.status(200).json({ status: "success",  message: "Successfully Login",token: token, user: user[0] });
-    
+            // if passwords match
+            if (passwordEncoded) {
+                // creating a token using jwt.sign() and passing user id, name, isprime, and expiring in 5 days
+                const token = jwt.sign({ userId: user[0].id, name: user[0].username }, secretKey, { expiresIn: "5d" });
 
-            }else{
-                //password not matched
-                res.status(401).json({ status: "error", error: "Invalid Email or Password" });
+                // check if the user is associated with group id=0
+                const group = await Group.findOne({
+                    where: {
+                        id: 1
+                    }
+                });
 
+                if (!group) {
+                    // if group with id=0 does not exist, create it
+                    const createdGroup = await user[0].createGroup({
+                    
+                        name: "Default Group",
+                        membersNo: 1,
+                        AdminId: user[0].id
+                    });
+
+                    
+                    
+                }
+                // check if the user is already associated with the group with id=0
+            const isUserInGroup = await group.hasUser(user);
+
+            if (!isUserInGroup) {
+                // if the user is not associated with the group, add them to the group
+                await group.addUser(user);
             }
-        
-        
+                // sending user as response
+                res.status(200).json({ status: "success", message: "Successfully Login", token: token, user: user[0] });
+            } else {
+                // password not matched
+                res.status(401).json({ status: "error", error: "Invalid Email or Password" });
+            }
         }
-    
     } catch (error) {
         console.log(error);
         res.status(500).json({ status: "error", error: "Internal error" });
-
-        
     }
-    
-    
-    }
+};
 
 
 ////validation details
