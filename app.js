@@ -44,8 +44,10 @@ chatHistory.belongsTo(User,
 User.belongsToMany(Group,{through:GroupMember})
 Group.belongsToMany(User,{through:GroupMember})
 Group.belongsTo(User,{foreignKey:"AdminId"})
+Group.hasMany(chatHistory);
+chatHistory.belongsTo(Group);
 
-sequelize.sync({}).then(() => {
+sequelize.sync().then(() => {
     app.listen(PORT, () => {
         console.log(`listen on port http://localhost:${PORT}`)
         console.log('Database and tables synchronized!');

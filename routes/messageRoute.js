@@ -10,7 +10,8 @@ route.get("/message",auth.authentication,messageController.reciveMessage)
 
 route.get("/dashboard",messageController.getDashboard)
 
-
+route.get("/GroupMessage",auth.authentication,messageController.getGroupMessage)
+route.post("/GroupMessage",auth.authentication,messageController.sendGroupMessage)
 
 
 module.exports=route

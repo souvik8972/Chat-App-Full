@@ -5,7 +5,7 @@ const Group = require("../models/groupDb");
 
 exports.createGroup = async (req, res) => {
     const user = req.user;
-    console.log(user)
+    // console.log(user)
     try {
         
         const { name, membersNo, membersIds } = req.body;
@@ -60,6 +60,7 @@ exports.getGroupId=async(req,res)=>{
                 id: groupId
             }
         })
+    
         res.status(200).json({group})
         
     } catch (error) {
@@ -67,3 +68,5 @@ exports.getGroupId=async(req,res)=>{
         
     }
 }
+
+

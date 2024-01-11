@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     welcomeMessage()
-    getMessage()
+    // getMessage()
     getAllUsers();
     userProfilre()
     GetMygroups()//show groups
+    getGroupMessage()
 
 })
 
@@ -18,10 +19,11 @@ const sendButton = document.querySelector(".send");
 const tokenData = JSON.parse(localStorage.getItem('token'));
 const token = tokenData.token
 const decode = parseJwt(token)
-let lastMessageTimestamp = 0;
+console.log(decode)
+
 
 const tokenUserId = decode.userId
-setInterval(getMessage, 1000);
+// setInterval(getMessage, 1000);
 const prifileBtn = document.getElementById("profile");
 const pro = document.querySelector(".pro")
 pro.addEventListener("click", profile)
@@ -68,33 +70,6 @@ function authentication() {
 
 
 
-/////<<<<<<send MEssages>>>>>>>>>.
-
-
-
-
-
-sendButton.addEventListener("click", async (e) => {
-    {
-        // Check if e is defined and has a preventDefault method
-        e.preventDefault()
-
-        const messageInput = document.getElementById("message");
-        const message = messageInput.value;
-
-        try {
-
-            const response = await authenticationAxios.post("/message", { message: message });
-
-            messageInput.value = ""
-
-        } catch (error) {
-            console.error("Error sending message:", error);
-        }
-    }
-})
-
-//<<<<<<<<end>>>>>>>>
 
 
 
@@ -114,6 +89,8 @@ function welcomeMessage() {
     }
 
 }
+
+
 function logout() {
     localStorage.removeItem("token")
     localStorage.removeItem("visited")
@@ -143,6 +120,7 @@ async function getMessage() {
     try {
         const response = await authenticationAxios.get("/message");
         const datas = response.data.rawMessages;
+        console.log(datas)
 
         datas.forEach((data) => {
             const userId = data.userId;
@@ -379,7 +357,7 @@ async function createGroup() {
         }
     }
 }
-
+////
 
 function getSelectedUsers() {
     const checkboxes = document.querySelectorAll('#group-member input[type="checkbox"]:checked');
@@ -392,35 +370,40 @@ function getSelectedUsers() {
 
 
 // <><<<<<<<<<<show my groups>>>>>>
+// Modified showGroups function to attach click event listeners
 function showGroups(groups) {
     const groupsContainer = document.querySelector('.buttom');
 
     // Clear existing content
     groupsContainer.innerHTML = '';
-
     groups.forEach(group => {
         const groupList = document.createElement('ul');
         groupList.classList.add('groups-list');
 
         const groupItem = document.createElement('li');
         groupItem.innerHTML = `
-            
             <span class="group-name" id="${group.id}">${group.name}</span>
         `;
-        groupList.addEventListener('click', function () {
+
+        // Attach click event listener to each group
+        groupList.addEventListener('click',async function () {
             const groupid = group.id;
-            groupById (groupid)
+        const input=document.querySelector('.input');
+        input.id = groupid;
+            const response = await authenticationAxios.get(`getGroupById?groupid=${groupid}`);
             console.log('Clicked on group with id:', groupid);
-            // You can perform additional actions or call a function here with the groupId
+            updateHeroSection(response.data.group);
+            getGroupMessage()
+            
+            
         });
-        
 
         groupList.appendChild(groupItem);
         groupsContainer.appendChild(groupList);
-    });
+    })
+
     
 }
-
 
 
 
@@ -444,45 +427,151 @@ async function GetMygroups() {
 function updateHeroSection(groupData) {
     const groupNameElement = document.querySelector('.group-name-dashboard');
     const groupMemberElement = document.querySelector('.group-member-dashboard');
-    const messageContainerElement = document.querySelector('.message_container');
+    const editBtn=document.getElementById("edit-button")
     
     // Update group name and member count
     groupNameElement.textContent = groupData.name;
     groupMemberElement.textContent = `${groupData.membersNo} members`;
-
-    // Clear existing messages
-    messageContainerElement.innerHTML = '';
+if(groupData.AdminId!=tokenUserId ){
+editBtn.style.display="none";
+}else{
+editBtn.style.display="block";
+    
+}
+    
 
     // Assuming messages is an array of messages in groupData
-    groupData.messages.forEach(message => {
-        const li = document.createElement('li');
-        li.classList.add(message.type);
-
-        const p = document.createElement('p');
-        p.classList.add('message');
-        p.innerHTML = `
-            <span>${message.sender}</span>
-            ${message.content}
-            <span>${message.timestamp}</span>
-        `;
-
-        li.appendChild(p);
-        messageContainerElement.appendChild(li);
-    });
+    
 }
 
 // Example usage:
 
 
-updateHeroSection(exampleGroupData);
 
 
-async function groupById(id) {
+
+
+async function getGroupMessage() {
     try {
-        const response = await authenticationAxios.get(`getGroupById?groupid=${id}`);
-        updateHeroSection(response.data.group);
-        console.log(response.data.group);
+        const input=document.querySelector('.input')
+            const String_id=input.getAttribute("id")
+        
+            const groupid=Number(String_id)
+            const messageContainer = document.querySelector('.message_container');
+            messageContainer.innerHTML = '';
+    
+        const responseChat=await authenticationAxios.get(`GroupMessage?groupId=${groupid}`);
+        const datas=responseChat.data.groups
+        
+        datas.forEach((data) => {
+            
+            const userId = data.userId;
+            const message = data.message;
+            const username = data.username;
+            const timestamp = new Date(data.createdAt).getTime();
+            // let messageId=data.id
+            // console.log("chat id",data.id)
+            // Only process messages with a timestamp greater than the last processed message
+        
+
+
+        
+                // Create a new list item
+                const listItem = document.createElement('li');
+
+                // Check if the user ID matches the specific user ID you passed
+                if (userId === tokenUserId) {
+                    listItem.className = 'my_message';
+                } else {
+                    listItem.className = 'others_message';
+                }
+
+                // Create a paragraph element with the username, message, and date
+                const paragraph = document.createElement('p');
+                paragraph.className = 'message';
+
+                // Create a span for the username
+                const usernameSpan = document.createElement('span');
+                usernameSpan.id = 'usernameSpan';
+                usernameSpan.textContent = username;
+                paragraph.appendChild(usernameSpan);
+
+                // Add the message text
+                const Usermessage = document.createElement('h5');
+                Usermessage.textContent = message;
+                paragraph.appendChild(Usermessage);
+
+                // Create a span for the formatted date
+                const dateSpan = document.createElement('span');
+                const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, timeZoneName: 'short' };
+                dateSpan.textContent = new Date(timestamp).toLocaleString('en-US', options);
+                paragraph.appendChild(dateSpan);
+
+                // Append the paragraph to the list item
+                listItem.appendChild(paragraph);
+
+                // Append the list item to the message container
+                const messageContainer = document.querySelector('.message_container');
+                messageContainer.appendChild(listItem);
+                console.log("DONE");
+            
+        });
+
     } catch (error) {
-        console.log(error);
+        console.error("Error sending message:", error);
     }
 }
+
+async function sendMesage(e){
+    
+            // Check if e is defined and has a preventDefault method
+            e.preventDefault()
+            const input=document.querySelector('.input')
+            const String_id=input.getAttribute("id")
+        
+            const id=Number(String_id)
+            
+            const messageInput = document.getElementById("message");
+            const message = messageInput.value;
+    
+            try {
+
+                const data={
+                    message: message,
+                    groupId:id
+                }
+    
+                const response = await authenticationAxios.post("/GroupMessage",data);
+    
+                messageInput.value = ""
+                getGroupMessage()
+                scrollButton()
+    
+            } catch (error) {
+                console.error("Error sending message:", error);
+            }
+        }
+    
+        /////<<<<<<send MEssages>>>>>>>>>.
+
+
+
+
+
+sendButton.addEventListener("click",sendMesage)
+
+//<<<<<<<<end>>>>>>>>
+
+// setInterval(getGroupMessage,5000)
+
+
+
+
+////scroll
+function scrollButton() {
+    const messageContainer = document.querySelector(".view_message");
+    
+    // Scroll to the bottom of the message container
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+  }
+  

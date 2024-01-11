@@ -15,4 +15,7 @@ route.get("/getAllGroups",auth.authentication,groupController.getAllGroups)
 route.get("/getMyGroups",auth.authentication,groupController.getMygroups)
 
 
+
+
+
 module.exports =route
