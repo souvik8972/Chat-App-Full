@@ -70,3 +70,35 @@ exports.getGroupId=async(req,res)=>{
 }
 
 
+
+
+
+exports.updateGroup = async (req, res) => {
+    const user = req.user;
+    const {groupId}=req.query
+    // console.log(user)
+    try {
+        
+        const findGroup = await Group.findOne({
+            where: { id: groupId }
+        });
+        
+        const { name, membersNo, membersIds } = req.body;
+
+
+        const updatedGroup= await findGroup.update({name: name,
+            membersNo: membersNo,
+            AdminId: user.id})
+
+        // Adding the current user to membersIds
+        membersIds.push(user.id);
+        await updatedGroup.setUsers(null)
+        // Adding selected users to GroupMembers
+        await updatedGroup.addUsers(membersIds.map((ele) => Number(ele)));
+
+        return res.status(201).json({ updatedGroup, message: "Group updated" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Failed to updated Group', error: error.message });
+    }
+};

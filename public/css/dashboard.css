@@ -181,7 +181,7 @@ list-style: none;
 
 
 .message_container .my_message{
-
+background-color: #FFFFFF;
   box-shadow: rgba(1, 103, 9, 0.44) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 margin: 10px;
 width: max-content;
@@ -222,9 +222,11 @@ margin-top: 2vh;
 .input #message{
 
 width: 100%;
-justify-content: end;
+justify-content:flex-start;
   border-radius: 20px;
   transition: all ease 3s;
+  text-align: center;
+
   
 
 }
@@ -360,7 +362,7 @@ margin-top: 10px;
 text-align: center;
 overflow-y: scroll;
 position: relative;
-box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+
 
 }
 .buttom::-webkit-scrollbar{
@@ -489,8 +491,15 @@ font-size: 2rex; /* Adjust the margin as needed for spacing */
 .member{
 width: 90%;
 background-color: #ffffff;
-margin-bottom: 8px;
+display: flex;
+margin-bottom: 2px;
 color:#008170;
+justify-content:space-between;
+height: 5vh;
+align-items: center;
+border-radius: 3px;
+
+padding: 0 10px;
 
 }
 #add-member{
@@ -505,7 +514,7 @@ margin-bottom: 30px;
 }
 
 #description{
-height: 3vh;
+height: 9vh;
 width: 80%;
 margin: 0 auto;
 margin-top: 1vh;
@@ -563,9 +572,14 @@ color: #008170;
 .heroright{
   transition: all ease 0.6s;
   max-height: 70vh;
-  display: none;
+  /* display: none; */
+  display: block;
   background-color: transparent;
 
+}
+.heroright .headingTranparent{
+  background-color: white;
+  border: 2px solid rgb(210, 210, 210);
 }
 .heroRightActive{
   transition: all ease 0.5s;
@@ -579,6 +593,8 @@ color: #008170;
   padding: 0;
   justify-content: space-evenly;
   justify-content:flex-start;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 
 }
 .buttom .groups-list:hover{
@@ -632,12 +648,29 @@ background-size:contain;
 background-repeat: no-repeat;
 background-position: center;
 z-index: -1;
+transition: .9s all  ease-in;
+animation: ani .9s ease-in-out ;
 
+
+ 
+}
+@keyframes ani{
+  0%{
+    top:10vh;
+  }
+  100%{
+    top:20vh;
+  }
 
 }
 .heroimgOpacity{
-  opacity: 0.4;
+  opacity: 0.8;
 }
 .message_container{
   background:transparent;
+}
+.heroleft {
+
+box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+  border-radius: 0 0 20px 20px;
 }

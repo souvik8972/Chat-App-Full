@@ -308,6 +308,9 @@ async function createGroup() {
     try {
         const groupNameInput = document.getElementById('groupName');
         const descriptionInput = document.getElementById('description');
+    
+        
+        
         // Trim to remove leading and trailing spaces
         const groupName = groupNameInput.value.trim();
         let selectedUser = getSelectedUsers();
@@ -337,7 +340,7 @@ async function createGroup() {
         groupNameInput.value = '';
         descriptionInput.value = '';
         // Continue with further actions+
-
+        
         alert('Create Group Successful');
         // console.log(selectedUser);
         // console.log(groupName);
@@ -369,6 +372,7 @@ function getSelectedUsers() {
 ////////////////////////////////        
 
 const heroimgOpacity=document.querySelector(".heroimg")
+const heading=document.querySelector(".heading")
 // <><<<<<<<<<<show my groups>>>>>>
 // Modified showGroups function to attach click event listeners
 function showGroups(groups) {
@@ -403,6 +407,8 @@ function showGroups(groups) {
             // Add "active" class to the clicked groups-list
             groupList.classList.add('activeGroup');
             heroimgOpacity.classList.add("heroimgOpacity")
+            heading.classList.remove("headingTranparent")
+            
             heroright.classList.add("heroRightActive")
             const groupid = group.id;
         const input=document.querySelector('.input');
@@ -582,7 +588,7 @@ sendButton.addEventListener("click",sendMesage)
 
 //<<<<<<<<end>>>>>>>>
 
-// setInterval(getGroupMessage,5000)
+// setInterval(getGroupMessage,1000)
 
 
 
@@ -603,27 +609,35 @@ function scrollButton() {
 //   scroll
 const sr = ScrollReveal({
     origin: 'top',
-    distance: '80px',
+    distance: '90px',
     duration: 2000,
     reset: true     
 })
 
 /* -- HOME -- */
 sr.reveal('.nav',{})
-sr.reveal('.hero',{delay: 100})
-sr.reveal('.heroleft',{delay: 200})
 
 
 
-const st = ScrollReveal({
+
+
+
+const srL = ScrollReveal({
     origin: 'left',
-    distance: '80px',
+    distance: '120px',
     duration: 2000,
-    opacity:0.3,
     reset: true     
 })
-st.reveal('.heroimg',{delay: 200})
 
+srL.reveal('.heroleft',{delay: 200})
 
+  
 
-///driver
+const srR = ScrollReveal({
+    origin: 'right',
+    distance: '100px',
+    duration: 2000,
+    reset: true     
+})
+
+srR.reveal('.hero',{delay: 100})
