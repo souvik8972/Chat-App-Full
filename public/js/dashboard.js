@@ -212,7 +212,8 @@ function addNewGroup() {
     const addGroupMembers = document.querySelector(".addGroupMembers");
     addGroupMembers.classList.toggle("visible");
     const heroright = document.querySelector(".hero");
-    heroright.classList.toggle("blur");
+    // heroright.classList.toggle("blur");
+
 
 
 
@@ -245,10 +246,15 @@ async function getAllUsers() {
 
 function showAllusers(userData) {
     const groupMemberDiv = document.getElementById("group-member");
+    const groupUpdateMemberDiv = document.getElementById("group-update-member");
 
     userData.forEach(user => {
-        const memberDiv = document.createElement("div");
-        memberDiv.classList.add("member");
+        // Create a new div for each user in both sections
+        const memberDivForGroupMember = document.createElement("div");
+        memberDivForGroupMember.classList.add("member");
+
+        const memberDivForGroupUpdateMember = document.createElement("div");
+        memberDivForGroupUpdateMember.classList.add("member");
 
         const label = document.createElement("label");
         label.setAttribute("for", `user-${user.id}`);
@@ -259,12 +265,17 @@ function showAllusers(userData) {
         checkbox.setAttribute("id", `user-${user.id}`);
         checkbox.setAttribute("value", user.id);
 
-        memberDiv.appendChild(label);
-        memberDiv.appendChild(checkbox);
+        // Append elements to both divs
+        memberDivForGroupMember.appendChild(label);
+        memberDivForGroupMember.appendChild(checkbox);
 
-        groupMemberDiv.appendChild(memberDiv);
+        memberDivForGroupUpdateMember.appendChild(label.cloneNode(true));
+        memberDivForGroupUpdateMember.appendChild(checkbox.cloneNode(true));
+
+        // Append divs to their respective sections
+        groupUpdateMemberDiv.appendChild(memberDivForGroupUpdateMember);
+        groupMemberDiv.appendChild(memberDivForGroupMember);
     });
-
 }
 
 //..........<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<allmembers <<<<<<<<<<<<<<<<<<
@@ -367,7 +378,11 @@ function getSelectedUsers() {
     const selectedUserIds = Array.from(checkboxes).map(checkbox => checkbox.value);
     return selectedUserIds;
 }
-
+function getUpadteSelectedUsers() {
+    const checkboxes = document.querySelectorAll('#group-update-member input[type="checkbox"]:checked');
+    const selectedUserIds = Array.from(checkboxes).map(checkbox => checkbox.value);
+    return selectedUserIds;
+}
 
 ////////////////////////////////        
 
@@ -452,13 +467,14 @@ function updateHeroSection(groupData) {
     const groupNameElement = document.querySelector('.group-name-dashboard');
     const groupMemberElement = document.querySelector('.group-member-dashboard');
     const editBtn=document.getElementById("edit-button")
-    
+    console.log(groupData,"datatata")
     // Update group name and member count
     groupNameElement.textContent = groupData.name;
     groupMemberElement.textContent = `${groupData.membersNo} members`;
 if(groupData.AdminId!=tokenUserId ){
 editBtn.style.display="none";
 }else{
+    editBtn.setAttribute("groupId",groupData.id)
 editBtn.style.display="block";
     
 }
@@ -590,6 +606,104 @@ sendButton.addEventListener("click",sendMesage)
 
 // setInterval(getGroupMessage,1000)
 
+const updateGroupMembers=document.querySelector(".updateGroupMembers")
+
+
+///update function
+const updateButton=document.querySelector(".edit-button")
+updateButton.addEventListener("click",async()=>{
+
+updateGroupMembers.style.visibility="visible"
+
+
+})
+
+const removeUpdateForm=document.querySelector("#removeUpdateForm")
+removeUpdateForm.addEventListener("click",()=>{
+    
+    updateGroupMembers.style.visibility="hidden"
+ })
+
+
+ async function updateGroup() {
+    try {
+        const groupNameInput = document.getElementById('updateGroupName');
+        const descriptionInput = document.getElementById('updateDescription');
+        const editBtn=document.getElementById("edit-button")
+        const groupid=editBtn.getAttribute("groupId");
+        
+        
+
+        // Trim to remove leading and trailing spaces
+        const groupName = groupNameInput.value.trim();
+        let selectedUser = getUpadteSelectedUsers()
+        console.log(selectedUser,"selectedUser")
+        const description = descriptionInput.value;
+
+        // Check if groupName is empty
+        if (!groupName) {
+            alert('Group Name cannot be empty');
+            return;
+        }
+        if (selectedUser.length < 1) {
+            alert("please add some members to the group")
+            return
+        }
+        const numOfmember = selectedUser.length + 1
+        const data = {
+            name: groupName,
+            membersNo: numOfmember,
+            membersIds: selectedUser
+
+        }
+ console.log(data)
+        const response = await authenticationAxios.put(`updateGroup?groupId=${groupid}`,data)
+        
+    
+        console.log(response,"success")
+        groupNameInput.value = '';
+        descriptionInput.value = '';
+        GetMygroups()
+        // Continue with further actions+
+        
+        // alert('Group update Successful');
+        // console.log(selectedUser);
+        // console.log(groupName);
+        // console.log(description);
+        // console.log(numOfmember)
+
+        // Add your logic to send data to the backend or perform other actions
+
+    } catch (error) {
+        console.error('Error:', error.message);
+        if (error.response && error.response.data) {
+            // If the server responds with a specific error message
+            alert(`Error: ${error.response.data.message}`);
+        } else {
+            // If it's a generic error or network issue
+            alert('An error occurred. Please try again later.');
+        }
+    }
+}
+
+
+
+
+const postupdateButton=document.getElementById("update-button")
+
+postupdateButton.addEventListener("click",()=>{
+
+    updateGroup()
+
+    alert("updated successfully")
+    GetMygroups()
+    updateGroupMembers.style.visibility="hidden"
+
+})
+
+
+
+
 
 
 
@@ -641,3 +755,6 @@ const srR = ScrollReveal({
 })
 
 srR.reveal('.hero',{delay: 100})
+
+
+

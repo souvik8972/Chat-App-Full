@@ -61,9 +61,9 @@
         <div class="heroright">
             <div class="heading headingTranparent">
                 <!-- <div class="group-img"><simg src="" alt="" srcset=""></div> -->
-                <div class="group-name-dashboard"> Group name</div>
-                <div class="group-member-dashboard">members</div>
-                <div class="edit-button" id="edit-button"><i class="ri-pencil-line"></i></div>
+                <div class="group-name-dashboard"> </div>
+                <div class="group-member-dashboard"></div>
+                <div class="edit-button" style="display: none;" id="edit-button"><i class="ri-pencil-line"></i></div>
             </div>
             <div class="view_message">
 
@@ -118,7 +118,7 @@
       <div class="UserProfile" id="userProfile">
         <i class="ri-contract-left-right-line pro"></i>
         <div class="userPicture">
-                    <img src="" alt="">
+                    <img src="/css/img/profile.png" alt="">
         </div>
         <!-- <div class="userDetails">
             <h3 class="username">Souvik Das</h3>
@@ -153,6 +153,34 @@
         <textarea name="description" id="description" cols="30" rows="5"></textarea>
     
         <input id="create-button" type="button"  value="Create Group">
+        
+    
+    
+    
+    </form>  
+
+    <form class="updateGroupMembers" method="post">
+        <i class="ri-contract-left-right-line remove" id="removeUpdateForm"></i>
+        <div class="headingOf">
+            update Group
+        </div>
+        <label id="groupName1" for="groupName">Group Name</label>
+        <input type="text" name="groupName" id="updateGroupName" required>
+        <!-- all users will appare here -->
+    <div class="allUsers">
+        <label for="group-members" id="update-add-member"> Add Members +</label>
+        <div id="group-update-member">
+            
+            
+    
+    
+        </div>
+        
+    </div>    
+        <label for="description">Add Description</label>
+        <textarea name="description" id="updateDescription" cols="30" rows="5"></textarea>
+    
+        <input id="update-button" type="button"  value="Update Group">
         
     
     

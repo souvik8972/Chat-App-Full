@@ -37,7 +37,8 @@ nav>.left{
 nav>.right{
     
     height: 100%;
-    width:15vw ;
+    width:20vw ;
+    margin-right: 2vw;
 }
 nav>.right>ul{
     display: flex;
@@ -110,6 +111,7 @@ overflow: hidden;
   margin-top: 0;
   justify-content: space-around;
   border-radius: 20px 20px 0 0;
+  color: #008170;
 
 }
 
@@ -215,7 +217,7 @@ color: #888;
 .input{
 margin-top: 2vh;
   width: 100%;
-
+  
   display: flex;
   justify-content: end;
 }
@@ -226,8 +228,8 @@ justify-content:flex-start;
   border-radius: 20px;
   transition: all ease 3s;
   text-align: center;
-
   
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 
 }
 
@@ -260,6 +262,7 @@ display: flex;
 justify-content: space-around;
 align-items: center;
 border-radius: 10px 10px 0 0;
+
 
 }
 .heading .group-img{
@@ -303,8 +306,11 @@ height:5.2vw ;
 margin-left: auto ;
 margin-right: auto;
 
-background-color: #ffffff;
+
 border-radius: 50%;
+}
+.UserProfile  .userPicture img {
+width: 5.2vw;
 }
 .UserProfile .userDetails{
 width: 100%;
@@ -428,7 +434,7 @@ background-color: #ffffff;
 }
 
 
-.addGroupMembers{
+.addGroupMembers,.updateGroupMembers{
 width: 40vh;
 min-height:70vh;
 display: flex;
@@ -444,6 +450,7 @@ visibility: hidden;
 transform-style: 10deg;
 transition: all ease 0.3s ;
 }
+
 .visible{
 visibility:visible;
 }
@@ -537,7 +544,7 @@ background-color: #FFFFFF;
 color: #008170;
 }
 
-.addGroupMembers i{
+.addGroupMembers i,.updateGroupMembers i{
 position: absolute;
 right: 2vh;
 top:1vh;
@@ -546,7 +553,7 @@ cursor: pointer;
 background-color: #008170;
 color: #f9f9f9;
 }
-.addGroupMembers i:hover{
+.addGroupMembers i:hover,.updateGroupMembers i:hover{
 background-color: #e5e4e4;
 color: #008170;
 }
@@ -626,7 +633,7 @@ align-items: center;
 
 .buttom .activeGroup{
 background-color:#00817096;
-
+padding: 6px 20px;
 border-radius: .8vw;
 
 }
@@ -664,7 +671,7 @@ animation: ani .9s ease-in-out ;
 
 }
 .heroimgOpacity{
-  opacity: 0.8;
+  opacity: 0.5;
 }
 .message_container{
   background:transparent;
@@ -673,4 +680,8 @@ animation: ani .9s ease-in-out ;
 
 box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
   border-radius: 0 0 20px 20px;
+}
+.feedback{
+  font-size: xx-large;
+  color: #008170;
 }

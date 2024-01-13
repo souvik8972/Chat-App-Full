@@ -84,12 +84,12 @@ exports.updateGroup = async (req, res) => {
         });
         
         const { name, membersNo, membersIds } = req.body;
-
+        console.log(name,membersIds,membersNo);
 
         const updatedGroup= await findGroup.update({name: name,
             membersNo: membersNo,
             AdminId: user.id})
-
+console.log(membersIds)
         // Adding the current user to membersIds
         membersIds.push(user.id);
         await updatedGroup.setUsers(null)

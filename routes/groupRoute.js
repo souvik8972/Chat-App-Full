@@ -15,7 +15,7 @@ route.get("/getAllGroups",auth.authentication,groupController.getAllGroups)
 route.get("/getMyGroups",auth.authentication,groupController.getMygroups)
 
     
-route.get("/updateGroup",auth.authentication,groupController.updateGroup)
+route.put("/updateGroup",auth.authentication,groupController.updateGroup)
 
 
 
