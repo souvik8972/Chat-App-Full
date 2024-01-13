@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 })
 
+var socket = io();
 
 
 // >>>>>>>>>
@@ -34,6 +35,8 @@ const remove = document.querySelector(".remove").addEventListener("click", addNe
 document.getElementById('create-button').addEventListener('click', createGroup);
 
 //<<<<<authntication>>>>>>>>>>>>>>.
+
+
 
 
 function authentication() {
@@ -69,6 +72,13 @@ function authentication() {
 }
 
 
+//     input.id = groupid;
+//socket
+// socket.on('group-message', (groupId) => {
+//     if ( == groupId) {
+//         getGroupMessage()
+//     }
+// })
 
 
 
@@ -468,6 +478,11 @@ function updateHeroSection(groupData) {
     const groupMemberElement = document.querySelector('.group-member-dashboard');
     const editBtn=document.getElementById("edit-button")
     console.log(groupData,"datatata")
+    socket.on('group-message', (groupId) => {
+            if ( groupData.id== groupId) {
+                getGroupMessage()
+            }
+        })
     // Update group name and member count
     groupNameElement.textContent = groupData.name;
     groupMemberElement.textContent = `${groupData.membersNo} members`;
@@ -575,7 +590,7 @@ async function getGroupMessage() {
             const input=document.querySelector('.input')
             const String_id=input.getAttribute("id")
         
-            const id=Number(String_id)
+            const groupId=Number(String_id)
             
             const messageInput = document.getElementById("message");
             const message = messageInput.value;
@@ -584,12 +599,13 @@ async function getGroupMessage() {
 
                 const data={
                     message: message,
-                    groupId:id
+                    groupId:groupId
                 }
     
                 const response = await authenticationAxios.post("/GroupMessage",data);
     
                 messageInput.value = ""
+                socket.emit('new-group-message', groupId)
                 getGroupMessage()
                 scrollButton()
     
@@ -758,3 +774,8 @@ srR.reveal('.hero',{delay: 100})
 
 
 
+///
+const input = document.querySelector('.input');
+const groupId = input.getAttribute('id');
+
+console.log(groupId,"group");

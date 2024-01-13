@@ -6,11 +6,32 @@ const bodyParser = require('body-parser')
 const sequelize = require("./util/db")
 require("dotenv").config()
 const PORT = process.env.PORT
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+const socketService = require("./services/websocket")
+
+
+
+
+
+
+
 const User = require("./models/userDb")
 const chatHistory = require("./models/ChatHistory")
 
 const Group = require("./models/groupDb")
 const GroupMember = require("./models/group-members")
+
+
+
+
+//socket
+   
+
+
+io.on('connection', socketService);
 
 
 ////routes
@@ -27,7 +48,6 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public")))
 app.use(cors());
-
 
 //
 app.use(userRoute)
@@ -48,7 +68,7 @@ Group.hasMany(chatHistory);
 chatHistory.belongsTo(Group);
 
 sequelize.sync().then(() => {
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
         console.log(`listen on port http://localhost:${PORT}`)
         console.log('Database and tables synchronized!');
 
