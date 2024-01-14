@@ -126,69 +126,70 @@ function parseJwt(token) {
 
 
 
-async function getMessage() {
-    try {
-        const response = await authenticationAxios.get("/message");
-        const datas = response.data.rawMessages;
-        console.log(datas)
+// async function getMessage() {
+//     try {
+//         const response = await authenticationAxios.get("/message");
+//         const datas = response.data.rawMessages;
+//         console.log(datas)
 
-        datas.forEach((data) => {
-            const userId = data.userId;
-            const message = data.message;
-            const username = data.username;
-            const timestamp = new Date(data.createdAt).getTime();
+//         datas.forEach((data) => {
+//             const userId = data.userId;
+//             const message = data.message;
+//             const username = data.username;
+//             const timestamp = new Date(data.createdAt).getTime();
 
-            // Only process messages with a timestamp greater than the last processed message
-            if (timestamp > lastMessageTimestamp) {
-                // Update the last processed timestamp
-                lastMessageTimestamp = timestamp;
+//             // Only process messages with a timestamp greater than the last processed message
+//             if (timestamp > lastMessageTimestamp) {
+//                 // Update the last processed timestamp
+//                 lastMessageTimestamp = timestamp;
 
-                // Create a new list item
-                const listItem = document.createElement('li');
+//                 // Create a new list item
+//                 const listItem = document.createElement('li');
 
-                // Check if the user ID matches the specific user ID you passed
-                if (userId === tokenUserId) {
-                    listItem.className = 'my_message';
-                } else {
-                    listItem.className = 'others_message';
-                }
+//                 // Check if the user ID matches the specific user ID you passed
+//                 if (userId === tokenUserId) {
+//                     listItem.className = 'my_message';
+//                 } else {
+//                     listItem.className = 'others_message';
+//                 }
 
-                // Create a paragraph element with the username, message, and date
-                const paragraph = document.createElement('p');
-                paragraph.className = 'message';
+//                 // Create a paragraph element with the username, message, and date
+//                 const paragraph = document.createElement('p');
+//                 paragraph.className = 'message';
 
-                // Create a span for the username
-                const usernameSpan = document.createElement('span');
-                usernameSpan.id = 'usernameSpan';
-                usernameSpan.textContent = username;
-                paragraph.appendChild(usernameSpan);
+//                 // Create a span for the username
+//                 const usernameSpan = document.createElement('span');
+//                 usernameSpan.id = 'usernameSpan';
+                
+//                 usernameSpan.textContent = username;
+//                 paragraph.appendChild(usernameSpan);
 
-                // Add the message text
-                const Usermessage = document.createElement('h5');
-                Usermessage.textContent = message;
-                paragraph.appendChild(Usermessage);
+//                 // Add the message text
+//                 const Usermessage = document.createElement('h5');
+//                 Usermessage.textContent = message;
+//                 paragraph.appendChild(Usermessage);
 
-                // Create a span for the formatted date
-                const dateSpan = document.createElement('span');
-                const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, timeZoneName: 'short' };
-                dateSpan.textContent = new Date(timestamp).toLocaleString('en-US', options);
-                paragraph.appendChild(dateSpan);
+//                 // Create a span for the formatted date
+//                 const dateSpan = document.createElement('span');
+//                 const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, timeZoneName: 'short' };
+//                 dateSpan.textContent = new Date(timestamp).toLocaleString('en-US', options);
+//                 paragraph.appendChild(dateSpan);
 
-                // Append the paragraph to the list item
-                listItem.appendChild(paragraph);
+//                 // Append the paragraph to the list item
+//                 listItem.appendChild(paragraph);
 
-                // Append the list item to the message container
-                const messageContainer = document.querySelector('.message_container');
-                messageContainer.appendChild(listItem);
-                console.log("DONE");
-            }
-        });
+//                 // Append the list item to the message container
+//                 const messageContainer = document.querySelector('.message_container');
+//                 messageContainer.appendChild(listItem);
+//                 console.log("DONE");
+//             }
+//         });
 
 
-    } catch (error) {
-        console.error("Error sending message:", error);
-    }
-}
+//     } catch (error) {
+//         console.error("Error sending message:", error);
+//     }
+// }
 
 // Uncomment the following line to fetch messages every second
 
@@ -437,6 +438,7 @@ function showGroups(groups) {
             heroright.classList.add("heroRightActive")
             const groupid = group.id;
         const input=document.querySelector('.input');
+        input.style.visibility="visible";
     input.id = groupid;
             const response = await authenticationAxios.get(`getGroupById?groupid=${groupid}`);
             console.log('Clicked on group with id:', groupid);
@@ -478,6 +480,7 @@ function updateHeroSection(groupData) {
     const groupMemberElement = document.querySelector('.group-member-dashboard');
     const editBtn=document.getElementById("edit-button")
     console.log(groupData,"datatata")
+    //socket 
     socket.on('group-message', (groupId) => {
             if ( groupData.id== groupId) {
                 getGroupMessage()
@@ -548,7 +551,12 @@ async function getGroupMessage() {
                 // Create a span for the username
                 const usernameSpan = document.createElement('span');
                 usernameSpan.id = 'usernameSpan';
-                usernameSpan.textContent = username;
+                if (userId === tokenUserId) {
+                    usernameSpan.textContent = "You";
+                } else {
+                    usernameSpan.textContent = username;
+                }
+                
                 paragraph.appendChild(usernameSpan);
 
                 // Add the message text
@@ -774,8 +782,11 @@ srR.reveal('.hero',{delay: 100})
 
 
 
-///
-const input = document.querySelector('.input');
-const groupId = input.getAttribute('id');
-
-console.log(groupId,"group");
+///type 
+var typingEffect = new Typed(".type",{
+    strings : ["Souvik Das","Developer","Artist"],
+    loop : true,
+    typeSpeed : 100, 
+    backSpeed : 80,
+    backDelay : 2000
+ })

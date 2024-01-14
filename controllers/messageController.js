@@ -3,7 +3,13 @@ const MessageDb = require("../models/ChatHistory");
 const User = require("../models/userDb");
 const { Op } = require("sequelize");
 const GroupMembers=require("../models/group-members")
- 
+
+require ("dotenv").config()
+const AWS_ACCESS_KEY_ID=process.env.AWS_ACCESS_KEY_ID
+const AWS_SECRET_ACCESS_KEY=process.env.AWS_SECRET_ACCESS_KEY
+const BUCKET_NAME=process.env.BUCKET_NAME
+const awsService=require("../services/aws")
+
 exports.sendGroupMessage = async (req, res) => {
   const user = req.user;
 
@@ -47,6 +53,38 @@ exports.sendGroupMessage = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+
+
+
+
+exports.sendGroupMedia = async (req, res) => {
+  const user = req.user;
+
+  try {
+    const { groupId } = req.body;
+    const media = req.file;
+    
+    const filename = `chat-Media/group${groupId}/user${user.id}/${Date.now()}_${media.originalname}`;
+    const mediaUrl = await awsService.uploadToS3(media.buffer, filename);
+    const createdMessage = await MessageDb.create({
+      message:mediaUrl,
+      groupId,
+      isMedia:true,
+      username: user.username,
+      userId: user.id, //  userId foreign key in the MessageDb model
+    });
+
+res.status(201).json({"message":"succesFllyUpload"})
+    // Rest of the code...
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
+
 
 
 

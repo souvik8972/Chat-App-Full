@@ -209,9 +209,3 @@ const sr = ScrollReveal({
 })
 
 /* -- HOME -- */
-sr.reveal('.nav',{})
-sr.reveal('.hero',{delay: 100})
-sr.reveal('.heroright',{delay: 200})
-sr.reveal('.context',{delay: 200})
-sr.reveal('.link',{delay: 200})
-

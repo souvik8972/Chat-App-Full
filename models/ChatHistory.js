@@ -12,6 +12,11 @@ const UserMessage=sequelize.define("userMessage",{
         type:Sequelize.STRING,
         allowNull: false
     },
+    isMedia:{
+        type:Sequelize.BOOLEAN,
+        defaultValue : false
+
+    },
     username:{
         type:Sequelize.STRING,
         allowNull: false
