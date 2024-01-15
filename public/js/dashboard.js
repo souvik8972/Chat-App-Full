@@ -523,9 +523,11 @@ async function getGroupMessage() {
     
         const responseChat=await authenticationAxios.get(`GroupMessage?groupId=${groupid}`);
         const datas=responseChat.data.groups
+        console.log(datas)
         
         datas.forEach((data) => {
-            
+            const isMedia=data.isMedia
+            console.log(isMedia)
             const userId = data.userId;
             const message = data.message;
             const username = data.username;
@@ -547,7 +549,39 @@ async function getGroupMessage() {
                     listItem.className = 'others_message';
                 }
 
-                // Create a paragraph element with the username, message, and date
+                if (isMedia) {
+                    // Create a paragraph element with the username, message, and date
+                const paragraph = document.createElement('p');
+                paragraph.className = 'message';
+
+                // Create a span for the username
+                const usernameSpan = document.createElement('span');
+                usernameSpan.id = 'usernameSpan';
+                if (userId === tokenUserId) {
+                    usernameSpan.textContent = "You";
+                } else {
+                    usernameSpan.textContent = username;
+                }
+                
+                paragraph.appendChild(usernameSpan);
+
+                // Add the message text
+                const Usermessage = document.createElement('img');
+                Usermessage.src= message;
+                Usermessage.id="chatImg"
+                paragraph.appendChild(Usermessage);
+
+                // Create a span for the formatted date
+                const dateSpan = document.createElement('span');
+                const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, timeZoneName: 'short' };
+                dateSpan.textContent = new Date(timestamp).toLocaleString('en-US', options);
+                paragraph.appendChild(dateSpan);
+
+                // Append the paragraph to the list item
+                listItem.appendChild(paragraph);
+                    
+                } else {
+                    // Create a paragraph element with the username, message, and date
                 const paragraph = document.createElement('p');
                 paragraph.className = 'message';
 
@@ -575,6 +609,7 @@ async function getGroupMessage() {
 
                 // Append the paragraph to the list item
                 listItem.appendChild(paragraph);
+                }
 
                 // Append the list item to the message container
                 const messageContainer = document.querySelector('.message_container');

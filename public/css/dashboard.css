@@ -750,3 +750,7 @@ font-family: 'Amaranth', sans-serif;
   background-color: #f9f9f9;
   color: #008170;
 }
+#chatImg{
+border-radius: 30px;
+  height: 300px;
+}
