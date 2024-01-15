@@ -101,12 +101,14 @@
 
             <div class="message_section">
 
-            <div class="input">
+            <form class="input" enctype="multipart/form-data">
                 
+                <input type="file" name="file" id="file" >
+            
                 <input type="text" name="message"  id="message"  placeholder="enter message..." required>
                 <div class="send"><i class="ri-send-plane-2-line"></i></div>
             
-            </div>
+            </form>
             </div>
 
 
@@ -187,6 +189,7 @@
     
     </form>  
     <div class="heroimg"></div>
+    <div class="heroimg2"></div>
 
     <script src="/socket.io/socket.io.js"></script>
 

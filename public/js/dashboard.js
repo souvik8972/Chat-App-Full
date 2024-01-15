@@ -434,7 +434,10 @@ function showGroups(groups) {
             groupList.classList.add('activeGroup');
             heroimgOpacity.classList.add("heroimgOpacity")
             heading.classList.remove("headingTranparent")
-            
+            const heroimg2=document.querySelector(".heroimg2")
+            heroimg2.style.display="block"
+            const heroimg=document.querySelector(".heroimg")
+            heroimg.style.display="none"
             heroright.classList.add("heroRightActive")
             const groupid = group.id;
         const input=document.querySelector('.input');
@@ -601,10 +604,33 @@ async function getGroupMessage() {
             const groupId=Number(String_id)
             
             const messageInput = document.getElementById("message");
-            const message = messageInput.value;
+            var fileInput = document.getElementById('file')
+            const file = fileInput.files[0]
+            
+            console.log(file,"fileInput")
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            };
+            
     
             try {
-
+                if(file){
+                    const formData = new FormData();
+                    formData.append('groupId', groupId);
+                    formData.append('media', file);
+                
+                    console.log([...formData])
+        
+                    const response = await authenticationAxios.post("/GroupMedia",formData,config);
+        
+                    fileInput.value = "";
+                    socket.emit('new-group-message', groupId)
+                    getGroupMessage()
+                    scrollButton()
+                }else{
+                    const message = messageInput.value;
                 const data={
                     message: message,
                     groupId:groupId
@@ -615,7 +641,7 @@ async function getGroupMessage() {
                 messageInput.value = ""
                 socket.emit('new-group-message', groupId)
                 getGroupMessage()
-                scrollButton()
+                scrollButton()}
     
             } catch (error) {
                 console.error("Error sending message:", error);
@@ -782,11 +808,3 @@ srR.reveal('.hero',{delay: 100})
 
 
 
-///type 
-var typingEffect = new Typed(".type",{
-    strings : ["Souvik Das","Developer","Artist"],
-    loop : true,
-    typeSpeed : 100, 
-    backSpeed : 80,
-    backDelay : 2000
- })
