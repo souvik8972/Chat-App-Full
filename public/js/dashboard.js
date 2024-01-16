@@ -92,7 +92,7 @@ function welcomeMessage() {
         alert("welcome " + name)
         const li = document.createElement("li")
         li.className = "feedback"
-        li.innerText = `${name} joined`
+        li.innerText = `${name} `
         const message_container = document.querySelector(".message_container")
         message_container.appendChild(li)
         localStorage.setItem("visited", true)
@@ -843,3 +843,19 @@ srR.reveal('.hero',{delay: 100})
 
 
 
+//
+const menu=document.querySelector(".menu2")
+    const menu2=document.querySelector(".menu")
+    menu2.addEventListener("click",()=>{
+        const right=document.querySelector(".right")
+        right.classList.toggle("rightToggle")
+
+
+    })
+    menu.addEventListener("click",()=>{
+        
+        const heroleft=document.querySelector(".heroleft")
+        
+        heroleft.classList.toggle("heroleftToggle")
+        
+    })

@@ -11,7 +11,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 const socketService = require("./services/websocket")
-
+const cronJob=require("./services/cron")
 
 
 
@@ -67,6 +67,7 @@ Group.belongsTo(User,{foreignKey:"AdminId"})
 Group.hasMany(chatHistory);
 chatHistory.belongsTo(Group);
 
+// cronJob.job.start()
 sequelize.sync().then(() => {
     server.listen(PORT, () => {
         console.log(`listen on port http://localhost:${PORT}`)
