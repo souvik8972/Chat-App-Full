@@ -16,7 +16,7 @@ exports.authentication= async (request, response, next) => {
         const token = authorizationHeader.split(" ")[1];
         // const token = authorizationHeader
         
-      
+    
 
         // Checking if the token is present or not
         if (!token) {

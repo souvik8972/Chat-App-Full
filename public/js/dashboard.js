@@ -1,3 +1,5 @@
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
     welcomeMessage()
@@ -444,9 +446,12 @@ function showGroups(groups) {
         input.style.visibility="visible";
     input.id = groupid;
             const response = await authenticationAxios.get(`getGroupById?groupid=${groupid}`);
+            const heroleft=document.querySelector(".heroleft")
+        heroleft.classList.remove("heroleftToggle")
             console.log('Clicked on group with id:', groupid);
             updateHeroSection(response.data.group);
             getGroupMessage()
+            
             
             
         });
@@ -527,7 +532,7 @@ async function getGroupMessage() {
         
         datas.forEach((data) => {
             const isMedia=data.isMedia
-            console.log(isMedia)
+            // console.log(isMedia)
             const userId = data.userId;
             const message = data.message;
             const username = data.username;
@@ -565,11 +570,32 @@ async function getGroupMessage() {
                 
                 paragraph.appendChild(usernameSpan);
 
-                // Add the message text
-                const Usermessage = document.createElement('img');
-                Usermessage.src= message;
-                Usermessage.id="chatImg"
-                paragraph.appendChild(Usermessage);
+                // Add the message img
+                  // Check the type of media (image, video, or PDF)
+        if (message.endsWith('.jpg') || message.endsWith('.jpeg') || message.endsWith('.png') || message.endsWith('.gif')) {
+            // Add the message image
+            const userMessageImg = document.createElement('img');
+            userMessageImg.src = message;
+            userMessageImg.id = "chatImg";
+            paragraph.appendChild(userMessageImg);
+        } else if (message.endsWith('.mp4') || message.endsWith('.webm') || message.endsWith('.ogg')) {
+            // Add the message video
+            const userMessageVideo = document.createElement('video');
+            userMessageVideo.src = message;
+            userMessageVideo.id = "chatVideo";
+            userMessageVideo.controls = true;
+            paragraph.appendChild(userMessageVideo);
+        } else if (message.endsWith('.pdf')) {
+            // Add a link to the PDF or embed a PDF viewer
+            const userMessagePdf = document.createElement('a');
+            userMessagePdf.href = message;
+            userMessagePdf.target = "_blank"; // Open the link in a new tab
+            userMessagePdf.textContent = message.split("_")[1];
+            paragraph.appendChild(userMessagePdf);
+            // Alternatively, you can embed a PDF viewer if supported
+            // (Note: Embedding a PDF viewer might require additional libraries or components)
+        }
+                // paragraph.appendChild(Usermessage);
 
                 // Create a span for the formatted date
                 const dateSpan = document.createElement('span');
@@ -614,7 +640,7 @@ async function getGroupMessage() {
                 // Append the list item to the message container
                 const messageContainer = document.querySelector('.message_container');
                 messageContainer.appendChild(listItem);
-                console.log("DONE");
+                // console.log("DONE");
                 scrollButton()
                 
         });
@@ -662,8 +688,10 @@ async function getGroupMessage() {
         
                     fileInput.value = "";
                     socket.emit('new-group-message', groupId)
+                    scrollButton()
                     getGroupMessage()
                     scrollButton()
+                    
                 }else{
                     const message = messageInput.value;
                 const data={
@@ -675,6 +703,7 @@ async function getGroupMessage() {
     
                 messageInput.value = ""
                 socket.emit('new-group-message', groupId)
+                scrollButton()
                 getGroupMessage()
                 scrollButton()}
     
@@ -787,19 +816,39 @@ postupdateButton.addEventListener("click",()=>{
 })
 
 
+//exit group
+async function exitGroup(groupid){
+
+    const groupId=groupid
+    try {
+        const response =await authenticationAxios.delete(`/exitGroup?groupId=${groupId}`)
+        alert("exit successfully")
+        GetMygroups();
+        window.location.href = "/dashboard"
+    } catch (error) {
+        
+    }
 
 
+
+}
+
+
+const exit_button=document.querySelector(".exit-button")
+exit_button.addEventListener("click",async ()=>{
+    const input=document.querySelector('.input')
+            const String_id=input.getAttribute("id")
+        
+            const groupId=Number(String_id)
+    
+    exitGroup(groupId)
+    
+})
 
 
 
 ////scroll
-function scrollButton() {
-    const messageContainer = document.querySelector(".view_message");
-    
-    // Scroll to the bottom of the message container
-    messageContainer.scrollTop = messageContainer.scrollHeight;
-  }
-  
+
 
 
 
@@ -859,3 +908,22 @@ const menu=document.querySelector(".menu2")
         heroleft.classList.toggle("heroleftToggle")
         
     })
+
+
+
+
+
+
+    ///scroll
+    function scrollButton() {
+        const messageContainer = document.querySelector(".message_container");
+    
+    // Wrap the scrolling logic in a Promise
+    return new Promise((resolve) => {
+        // Scroll to the bottom of the message container
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+
+        // Resolve the Promise to indicate completion
+        resolve();
+    })
+}

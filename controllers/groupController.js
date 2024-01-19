@@ -1,15 +1,18 @@
+// Importing necessary modules and models
 const sequelize = require("../util/db");
 const ChatHistory = require("../models/ChatHistory");
 const User = require("../models/userDb");
 const Group = require("../models/groupDb");
 
+// Controller function for creating a new group
 exports.createGroup = async (req, res) => {
-    const user = req.user;
-    // console.log(user)
+    const user = req.user; // Extracting the user from the request (assuming that user information is attached to the request)
+
     try {
-        
+        // Extracting necessary information from the request body
         const { name, membersNo, membersIds } = req.body;
 
+        // Creating a new group in the database associated with the current user
         const group = await user.createGroup({
             name: name,
             membersNo: membersNo,
@@ -19,86 +22,142 @@ exports.createGroup = async (req, res) => {
         // Adding the current user to membersIds
         membersIds.push(user.id);
 
-        // Adding selected users to GroupMembers
+        // Adding selected users to the GroupMembers association in the group
         await group.addUsers(membersIds.map((ele) => Number(ele)));
 
+        // Sending a success response with the created group
         return res.status(201).json({ group, message: "Group Created" });
     } catch (error) {
+        // Handling errors and sending an error response
         console.error(error);
         return res.status(500).json({ message: 'Failed to create Group', error: error.message });
     }
 };
 
-exports.getAllGroups=async(req,res)=>{
+// Controller function for getting all groups
+exports.getAllGroups = async (req, res) => {
     try {
+        // Retrieving all groups from the database
         const groups = await Group.findAll();
-        res.status(200).json({ groups})
+
+        // Sending a success response with the list of groups
+        res.status(200).json({ groups });
     } catch (error) {
-        
-        res.status(500).json({ message: 'Failed to get groups', error})
+        // Handling errors and sending an error response
+        res.status(500).json({ message: 'Failed to get groups', error });
     }
 }
 
+// Controller function for getting groups associated with the logged-in user
 exports.getMygroups = async (req, res, next) => {
     try {
-        const user = req.user;
-        const groups = await user.getGroups();
-        return res.status(200).json({ groups, message: "All groups succesfully fetched" })
+        const user = req.user; // Extracting the user from the request
 
+        // Retrieving groups associated with the user
+        const groups = await user.getGroups();
+
+        // Sending a success response with the user's groups
+        return res.status(200).json({ groups, message: "All groups successfully fetched" });
     } catch (error) {
+        // Handling errors and sending an error response
         console.log(error);
-        return res.status(500).json({ message: 'Internal Server error!' })
+        return res.status(500).json({ message: 'Internal Server error!' });
     }
 }
 
-exports.getGroupId=async(req,res)=>{
-    const groupId=req.query.groupid
-    try {
+// Controller function for getting group information based on group ID
+exports.getGroupId = async (req, res) => {
+    const groupId = req.query.groupid;
 
-        const group=await Group.findOne({
-            where:{
+    try {
+        // Finding the group in the database based on the provided group ID
+        const group = await Group.findOne({
+            where: {
                 id: groupId
             }
-        })
-    
-        res.status(200).json({group})
-        
+        });
+
+        // Sending a success response with the group information
+        res.status(200).json({ group });
+
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server error!', error: error})
-        
+        // Handling errors and sending an error response
+        res.status(500).json({ message: 'Internal Server error!', error: error });
+
     }
 }
 
-
-
-
-
+// Controller function for updating group information
 exports.updateGroup = async (req, res) => {
-    const user = req.user;
-    const {groupId}=req.query
-    // console.log(user)
+    const user = req.user; // Extracting the user from the request
+    const { groupId } = req.query; // Extracting the group ID from the request parameters
+
     try {
-        
+        // Finding the group in the database based on the provided group ID
         const findGroup = await Group.findOne({
             where: { id: groupId }
         });
-        
-        const { name, membersNo, membersIds } = req.body;
-        console.log(name,membersIds,membersNo);
 
-        const updatedGroup= await findGroup.update({name: name,
+        // Extracting necessary information from the request body
+        const { name, membersNo, membersIds } = req.body;
+
+        // Updating the group information in the database
+        const updatedGroup = await findGroup.update({
+            name: name,
             membersNo: membersNo,
-            AdminId: user.id})
-console.log(membersIds)
+            AdminId: user.id
+        });
+
         // Adding the current user to membersIds
         membersIds.push(user.id);
-        await updatedGroup.setUsers(null)
-        // Adding selected users to GroupMembers
+
+        // Clearing existing group members
+        await updatedGroup.setUsers(null);
+
+        // Adding selected users to the GroupMembers association in the group
         await updatedGroup.addUsers(membersIds.map((ele) => Number(ele)));
 
+        // Sending a success response with the updated group
         return res.status(201).json({ updatedGroup, message: "Group updated" });
     } catch (error) {
+        // Handling errors and sending an error response
         console.error(error);
-        return res.status(500).json({ message: 'Failed to updated Group', error: error.message });
+        return res.status(500).json({ message: 'Failed to update Group', error: error.message });
+    }
+};
+
+// Controller function for a user to exit a group
+exports.exitGroup = async (req, res) => {
+    const user = req.user; // Extracting the user from the request
+    const { groupId } = req.query; // Extracting the group ID from the request parameters
+
+    try {
+        // Finding the group in the database based on the provided group ID
+        const group = await Group.findOne({
+            where: { id: groupId }
+        });
+
+        // Checking if the user is a member of the group
+        const isMember = await group.hasUser(user);
+
+        if (isMember) {
+            // Removing the user from the group
+            await group.removeUser(user);
+
+            // Decrementing membersNo by 1
+            const updatedGroup = await group.update({
+                membersNo: group.membersNo - 1
+            });
+
+            // Sending a success response
+            return res.status(200).json({ message: "Exited the group successfully." });
+        } else {
+            // Sending a 404 response if the user is not a member of the group
+            return res.status(404).json({ message: "User is not a member of the group." });
+        }
+    } catch (error) {
+        // Handling errors and sending an error response
+        console.error(error);
+        return res.status(500).json({ message: 'Failed to exit the group', error: error.message });
     }
 };

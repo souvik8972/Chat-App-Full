@@ -183,7 +183,7 @@
       color: #FFFFFF;
   }
   
-  .user,.userlogin{
+  .user,.userlogin,.userforgotPassword{
       width: 60vh;
   
       background-color: #cdecec;
@@ -197,10 +197,11 @@
       
   
   }
+  .userforgotPassword{display: none;}
   .userlogin{
       hyphens: 30vh;
   }
-  #signupForm,#loginForm{
+  #signupForm,#loginForm,#forgotPassword{
   background: url("./img/leaves.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -213,7 +214,7 @@
       flex-direction: column;
       border-radius: 10px;
   }
-  #signupForm label,#loginForm label{
+  #signupForm label,#loginForm label,#forgotPassword label{
       margin-top: 1vh;
   }
   #signupForm input,#loginForm input{
@@ -227,7 +228,7 @@
       
   
   }
-  #signupForm button,#loginForm button{
+  #signupForm button,#loginForm button,#forgotPassword button{
       background-color: aqua;
       width: 15vh;
       text-transform: uppercase;
@@ -240,8 +241,11 @@
       margin-top: 10px;
       
   }
-  
-  .close,.close1{
+  #signupForm button:hover,#loginForm button:hover,#forgotPassword button:hover{
+    background-color: #FFFFFF;
+    color: #008170;
+  }
+  .close,.close1,.close2{
       position: absolute;
       right:20px;
       top:10px;
@@ -285,7 +289,7 @@
       display: none;
   }
   
-  .flashMessage,.flashMessage1{
+  .flashMessage,.flashMessage1,.flashMessage3{
     background-color: #008170;
     
     

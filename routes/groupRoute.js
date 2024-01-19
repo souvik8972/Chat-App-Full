@@ -16,7 +16,7 @@ route.get("/getMyGroups",auth.authentication,groupController.getMygroups)
 
     
 route.put("/updateGroup",auth.authentication,groupController.updateGroup)
-
+route.delete("/exitGroup",auth.authentication,groupController.exitGroup)
 
 
 module.exports =route

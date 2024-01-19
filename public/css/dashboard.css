@@ -141,10 +141,10 @@ background:#008170;
 
 .view_message{
   width: 100%;
-  height: 100%;
+  height: 95%;
   margin: auto;
-  overflow-y: scroll;
-  scroll-behavior: smooth;
+  /* overflow-y: scroll; */
+  scroll-behavior:smooth;
   border-radius: 0 10px 10px 10px;
   background-color: transparent;
   box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
@@ -160,7 +160,7 @@ background:#008170;
 
 .message_container{
 
-height: 100%;
+height: 40%;
 display: flex;
 flex-direction: column;
 background-color:transparent;
@@ -186,7 +186,7 @@ list-style: none;
 background-color: #FFFFFF;
   box-shadow: rgba(1, 103, 9, 0.44) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 margin: 10px;
-width: max-content;
+max-width: 40vw;
 align-self: flex-end;
 word-wrap: break-word;
 margin-top: 2vh;
@@ -201,10 +201,14 @@ display: flex;
 color: #e6e0e07d;
 margin-top:2vh ;
 font-size: 10px;
+max-width: 30vw;
 
 }
 .message_container .my_message p span{
 color: #00817075;
+}
+#chatVideo{
+  width: 30vw;
 }
 .feedback{
 margin: 10px;
@@ -359,13 +363,13 @@ color: #008170;
 }
 .buttom{
 width: 90%;
-height: 110%;
+height: 100px;
 flex-wrap: wrap;
 margin: auto;
 
 margin-top: 10px;
 text-align: center;
-overflow-y: scroll;
+/* overflow-y: scroll; */
 position: relative;
 
 
@@ -603,8 +607,19 @@ color: #008170;
   box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 
 }
+.groups-list:nth-child(even){
+  background-color: #ffffff;
+}
+.groups-list:nth-child(odd){
+  color: #000000;
+  background-color: #ebebebf6;
+}
+
 .buttom .groups-list:hover{
   padding: 6px 20px ;
+  color: #000000;
+  background-color: #91caaec7;
+
 }
 .buttom .groups-list li:nth-child(1){
   width: 40px;
@@ -632,44 +647,55 @@ align-items: center;
 
 .buttom .activeGroup{
 background-color:#00817096;
+color: #FFFFFF;
 padding: 6px 20px;
 border-radius: .8vw;
 
 }
 
+.buttom {
+  background-image: url("./img/Messages-pana\ \(1\).png");
+background-position: right;
 
+backdrop-filter: blur(6px);
+/* -webkit-filter: blur(8px);  */
+
+}
 .heading{color: #f9f9f9;}
 
 
 
 .heroimg{
-  width: 77vw;
+  width: 100vw;
   height:70vh;
   
   position: absolute;
   right: 0;
   top:15vh;
-  background: url("./img/Curious.png");
-background-size:contain;
+  background: url("./img/Team\ page-cuate.png");
+background-size:cover;
 background-repeat: no-repeat;
-background-position: center;
+background-position: right;
+background-size: 80vw;
 z-index: -1;
 transition: .9s all  ease-in;
 animation: ani .9s ease-in-out ;
 
 
+
  
 }
 .heroimg2{
-  width: 77vw;
+  width: 100vw;
   height:70vh;
-  background: url("./img/5226644.jpg");
+  background: url("./img/4964089.jpg");
   position: absolute;
   right: 0;
   top:19vh;
   z-index: -2;
   
-background-size:cover;
+  background-size: cover;
+
 background-repeat: no-repeat;
 background-position: center;
 
@@ -693,7 +719,11 @@ opacity: 0.4;
   opacity: 0.5;
 }
 .message_container{
+  height: 100%;
   background:transparent;
+  
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 .heroleft {
 
@@ -752,13 +782,15 @@ font-family: 'Amaranth', sans-serif;
 }
 #chatImg{
 border-radius: 30px;
-  height: 300px;
+  /* height: 300px; */
+  max-height: 30vh;
 }
 .buttom{
 
   background-size:cover;
-  
+  height: 80%;
 background-clip: padding-box;
+overflow-y: scroll;
 }
 
 
@@ -768,16 +800,91 @@ background-clip: padding-box;
 
 
 
+
+
+.updateGroupMembers #updateGroupName{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.updateGroupMembers .allUsers{
+  margin: 10px  40px ;
+}
+.updateGroupMembers #updateDescription{
+  width: 80%;
+  margin: 0 auto ;
+}
+.updateGroupMembers #update-button{
+  margin: auto;
+  background-color: #389588;
+border-radius: 2vw;
+color: #fffcfc;
+box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.552);
+cursor: pointer;
+padding: 10px;
+}
+#update-button:hover{
+  background-color: #e0e0e0;
+  color: #008170;
+}
+.exit-button{
+  font-size: x-large;
+}
+
+.heading{
+  border-bottom: 1px solid #ffffff;
+}
+
+
+
+.exit-button::after {
+  content: "Exit Group"; /* Display the title attribute as the tooltip text */
+  position: absolute;
+  /* display: none; */
+font-size: 15px;
+  color:#ffffff;
+display: none;
+  border-radius: 3px;
+  z-index: 1;
+  bottom: 70%; /* Position the tooltip above the exit button */
+ /* Center the tooltip horizontally */
+  left: auto;
+  top:3%;/* Adjust for centering */
+  left:84%;
+  transition: all ease 0.4s ;
+}
+
+.exit-button:hover::after {
+  display: block;
+  transition: all ease 0.4s ;
+}
+
+
+.delete-message{
+
+  
+  cursor:pointer;
+}
+.delete-message::after{
+  content: "delete";
+  width: 0;
+  visibility: hidden;
+  
+  
+
+}
+.delete-message:hover::after{
+  visibility:visible;
+  width: 100%;}
+
 /* ///responsive */
 
-
 @media screen and (max-width: 600px) {
-   body{
-    height: 500px;
-    overflow: hidden;
-   }
+    
+
   nav{
-  width: 100%;
+  
       flex-direction: column;
       color: white;
       height: auto;
@@ -794,7 +901,7 @@ background-clip: padding-box;
       width: 100%;
   height: 30vh;
       border-radius: 0 0 30px 30px;
-      
+      margin-left: auto;
       display:none ;
       transition: all ease 0.5s;
       opacity: 0;
@@ -821,14 +928,14 @@ background-clip: padding-box;
 .heroleft{
 position: absolute;
 width: 90%;
-opacity: 0;
-    display: none;
+left:-89%;
+
 transition: all ease 0.5s;
 
 }
 .heroleftToggle{
-  opacity: 1;
-display: block;
+  left:0;
+  background-color: #b8e7e0;
 }
 .top{
   display: flex;
@@ -843,7 +950,7 @@ display: block;
 }
 .heroimg,.heroimg2{
   left:10vw;
-  
+  display: none;
 }
 .menu{
   display: block;
@@ -887,9 +994,15 @@ display: block;
   top: 20px;
   font-size: xx-large;
 }
-.input #message{
-  
-  width: 100%;
-  margin-right: 20px;
+
+#chatImg{
+width: 100%;
 }
+
+.view_message{
+  margin-bottom: 0;
+  
+}
+
+
 }

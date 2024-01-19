@@ -111,7 +111,7 @@ exports.login = async (req, res) => {
                 });
 
                 if (!group) {
-                    // if group with id=0 does not exist, create it
+                    // if group with id=1 does not exist, create it
                     const createdGroup = await user[0].createGroup({
                     
                         name: "Default Group",
@@ -153,8 +153,7 @@ exports.login = async (req, res) => {
       
         
         
-      
-        // Validate phone number
+    
         
       
         // Validate password (customize the criteria as needed)
