@@ -3,6 +3,7 @@ const { extname } = require('path');
 require('dotenv').config();
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+const getContentType=require("../util/getContentType")  
 
 const BUCKET_NAME=process.env.BUCKET_NAME
 const s3Client = new S3Client({
@@ -35,22 +36,4 @@ exports.uploadToS3 = async (media, filename) => {
   }
 };
 
-// Function to determine content type based on file extension
-function getContentType(filename) {
-  const ext = extname(filename).toLowerCase();
 
-  switch (ext) {
-    case '.jpg':
-    case '.jpeg':
-      return 'image/jpeg';
-    case '.png':
-      return 'image/png';
-    case '.mp4':
-      return 'video/mp4';
-    case '.mp3':
-      return 'audio/mp3';
-    // Add more cases for other file types as needed
-    default:
-      return 'application/octet-stream'; // Default to binary data if content type is unknown
-  }
-}

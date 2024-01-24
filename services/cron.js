@@ -1,6 +1,6 @@
 const { CronJob } =require('cron');
 const  MessageDb=require("../models/ChatHistory")
-const OldChat=require("../models/oldChatHistroy")
+const OldChat=require("../models/SaveOldChatHistory")
 const {Op}=require("sequelize")
 const job = new CronJob(
 	'* * * * * 6', // cronTime
@@ -37,9 +37,9 @@ if(oldChathistory){
                 await OldChat.create(
                     {
                         id:record.id,
-                        message: record.message,
-                        isMedia: record.isMedia,
-                        username: record.username,
+                        text: record.message,
+                        attachment: record.attachment,
+                        attachmentType: record.attachmentType,
                         createdAt: record.createdAt,
                         updatedAt: record.updatedAt,
                         userId: record.userId,

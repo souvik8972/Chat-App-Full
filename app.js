@@ -18,19 +18,16 @@ const cronJob=require("./services/cron")
 
 
 
-const User = require("./models/userDb")
-const chatHistory = require("./models/ChatHistory")
+const User = require("./models/UserDb")
+const Chat = require("./models/ChatHistory")
 
-const Group = require("./models/groupDb")
-const GroupMember = require("./models/group-members")
+const Group = require("./models/GroupDb")
+const GroupMember = require("./models/GroupMember")
 
 
 
 
 //socket
-   
-
-
 io.on('connection', socketService);
 
 
@@ -51,21 +48,21 @@ app.use(cors());
 
 //
 app.use(userRoute)
-app.use(messageRoute)
+app.use("/group",messageRoute)
 app.use(groupRoute)
 
 //association
 
-User.hasMany(chatHistory)
-chatHistory.belongsTo(User,
+User.hasMany(Chat)
+Chat.belongsTo(User,
     { constraints: true, onDelete: 'CASCADE' }
 
 )
 User.belongsToMany(Group,{through:GroupMember})
 Group.belongsToMany(User,{through:GroupMember})
-Group.belongsTo(User,{foreignKey:"AdminId"})
-Group.hasMany(chatHistory);
-chatHistory.belongsTo(Group);
+Group.belongsTo(User,{foreignKey:"adminId"})
+Group.hasMany(Chat);
+Chat.belongsTo(Group);
 
 // cronJob.job.start()
 sequelize.sync().then(() => {

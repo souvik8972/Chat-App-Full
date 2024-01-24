@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/db');
-const UserMessage=sequelize.define("userMessage",{
+
+const UserMessage = sequelize.define("chat", {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true, 
@@ -8,23 +9,24 @@ const UserMessage=sequelize.define("userMessage",{
         allowNull: false,
     },
     
-    message:{
-        type:Sequelize.STRING,
+    text: {
+        type: Sequelize.STRING,
         allowNull: false
     },
-    isMedia:{
-        type:Sequelize.BOOLEAN,
-        defaultValue : false
 
+    attachment: {
+        type: Sequelize.STRING,
+        allowNull: true 
     },
-    username:{
-        type:Sequelize.STRING,
-        allowNull: false
 
+    attachmentType: {
+        type: Sequelize.STRING, 
+        allowNull: true 
+    },
+    username: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
-
 });
 
-
-
-module.exports=UserMessage
+module.exports = UserMessage;

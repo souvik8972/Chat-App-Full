@@ -8,20 +8,21 @@ const UserMessage=sequelize.define("OldMessage",{
         allowNull: false,
     },
     
-    message:{
-        type:Sequelize.STRING,
+    text: {
+        type: Sequelize.STRING,
         allowNull: false
     },
-    isMedia:{
-        type:Sequelize.BOOLEAN,
-        defaultValue : false
 
+    attachment: {
+        type: Sequelize.STRING,
+        allowNull: true 
     },
-    username:{
-        type:Sequelize.STRING,
-        allowNull: false
 
-    },userId:{
+    attachmentType: {
+        type: Sequelize.STRING, 
+        allowNull: true 
+    },
+    userId:{
         type: Sequelize.INTEGER,
         allowNull: false,
     },groupId:{
@@ -29,8 +30,14 @@ const UserMessage=sequelize.define("OldMessage",{
         allowNull: false,
     }
 
+    
+    
+    
+    
 });
 
 
 
 module.exports=UserMessage
+
+

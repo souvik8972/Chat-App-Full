@@ -1,12 +1,17 @@
-const User=require("../models/userDb")
-const bcrypt=require("bcrypt")
-const jwt=require("jsonwebtoken")
+const User = require("../models/UserDb")
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 require("dotenv").config()
-const secretKey=process.env.SECRET_KEY
+const secretKey = process.env.SECRET_KEY
 const { Op } = require("sequelize");
-const Group = require("../models/groupDb");
+const Groups = require("../models/GroupDb");
 
-exports.signup = async (req, res) => {
+
+
+
+
+
+exports.signUp = async (req, res) => {
     const { username, email, phonenumber, password, confpassword } = req.body;
 
     try {
@@ -76,9 +81,6 @@ exports.signup = async (req, res) => {
 
 
 
-
-
-
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -104,7 +106,7 @@ exports.login = async (req, res) => {
                 const token = jwt.sign({ userId: user[0].id, name: user[0].username }, secretKey, { expiresIn: "5d" });
 
                 // check if the user is associated with group id=0
-                const group = await Group.findOne({
+                const group = await Groups.findOne({
                     where: {
                         id: 1
                     }
@@ -113,22 +115,23 @@ exports.login = async (req, res) => {
                 if (!group) {
                     // if group with id=1 does not exist, create it
                     const createdGroup = await user[0].createGroup({
-                    
-                        name: "Default Group",
+
+                        name: "Common Group",
                         membersNo: 1,
-                        AdminId: user[0].id
+                        adminId: user[0].id
                     });
 
-                    
-                    
+
+
                 }
                 // check if the user is already associated with the group with id=0
-            const isUserInGroup = await group.hasUser(user);
+                const isUserInGroup = await group.hasUser(user);
 
-            if (!isUserInGroup) {
-                // if the user is not associated with the group, add them to the group
-                await group.addUser(user);
-            }
+                if (!isUserInGroup) {
+                    // if the user is not associated with the group, add them to the group
+                    await group.addUser(user);
+                    await group.increment('membersNo');
+                }
                 // sending user as response
                 res.status(200).json({ status: "success", message: "Successfully Login", token: token, user: user[0] });
             } else {
@@ -138,32 +141,41 @@ exports.login = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ status: "error", error: "Internal error" });
+        res.status(500).json({ status: "error", error: "Invalid Email or Password" });
     }
 };
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 ////validation details
 
-    function validateUserData(username, email, phonenumber, password) {
-        // Validate username
-        if (!username || username.trim() === '') {
-          return 'Username is required';
-        }
-      
-        
-        
-    
-        
-      
-        // Validate password (customize the criteria as needed)
-        if (!password || password.length < 4) {
-          return 'Password is required and should be at least 6 characters';
-        }
-      
-        // If all validations pass, return null
-        return null;
-      }
+function validateUserData(username, email, phonenumber, password) {
+    // Validate username
+    if (!username || username.trim() === '') {
+        return 'Username is required';
+    }
+
+
+
+    // Validate password (customize the criteria as needed)
+    if (!password || password.length < 4) {
+        return 'Password is required and should be at least 5 characters';
+    }
+
+    // If all validations pass, return null
+    return null;
+}
 
 
 
@@ -172,22 +184,50 @@ exports.login = async (req, res) => {
 
 
 
-      //
-      
+//
+
 exports.getAllUsers = async (req, res) => {
     const user = req.user;
-    
+
     try {
-      const allUsers = await User.findAll({
-        where:{
-            id:{[Op.ne]:user.id}
-        },
-        attributes: ["id", "username"]
-      });
-  
-      res.status(200).json({ allUsers });
+        const allUsers = await User.findAll({
+            where: {
+                id: { [Op.ne]: user.id }
+            },
+            attributes: ["id", "username"]
+        });
+
+        res.status(200).json({ allUsers });
     } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-  };
+};
+
+
+///
+exports.homePage=(req, res) =>{
+    res.sendFile("index.html",{root:"views"})
+}
+
+
+//
+exports.getUser= async (req, res) => {
+    
+    const userId=req.query.userId
+
+    try {
+        const user= await User.findOne({
+            where: {
+                id: userId
+            },
+            attributes:["username"]
+            
+        });
+
+        res.status(200).json({user});
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}

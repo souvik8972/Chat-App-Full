@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/db');
-const Groupmember=sequelize.define("GroupMember",{
+const GroupMember=sequelize.define("GroupMember",{
     id:{
     type:Sequelize.INTEGER,
     autoIncrement:true,
@@ -9,4 +9,4 @@ const Groupmember=sequelize.define("GroupMember",{
     }
 })
 
-module.exports=Groupmember;
+module.exports=GroupMember;

@@ -1,22 +1,18 @@
 const express=require("express")
 const route =express.Router()
-const auth=require("../middleware/authentication")
+const authentication=require("../middleware/authentication")
 const groupController=require("../controllers/groupController")
 
+const usercontroller=require("../controllers/userController.js")
 
 
 
-
-route.get("/getGroupById",auth.authentication,groupController.getGroupId)
-
-route.post("/createGroup",auth.authentication,groupController.createGroup)
-
-route.get("/getAllGroups",auth.authentication,groupController.getAllGroups)
-route.get("/getMyGroups",auth.authentication,groupController.getMygroups)
-
-    
-route.put("/updateGroup",auth.authentication,groupController.updateGroup)
-route.delete("/exitGroup",auth.authentication,groupController.exitGroup)
+route.get("/group",authentication.authentication,groupController.getGroupId)
+route.post("/group/create",authentication.authentication,groupController.createGroup)
+route.get("/groups",authentication.authentication,groupController.getMygroups)
+route.put("/group/update",authentication.authentication,groupController.updateGroup)
+route.delete("/group/exit",authentication.authentication,groupController.exitGroup)
+route.get("/users",authentication.authentication,usercontroller.getAllUsers)
 
 
 module.exports =route

@@ -1,24 +1,21 @@
 const express=require("express")
 const route =express.Router()
 const auth=require("../middleware/authentication")
-const messageController=require("../controllers/messageController")
+const chatController=require("../controllers/chatController")
 
 
 const multerMiddleware=require("../middleware/multer")
-const upload = multerMiddleware.multer.single('media');
+
+
+
+const upload = multerMiddleware.multer.array('media',3)
 
 
 
 
-route.post("/message",auth.authentication,messageController.sendMessage)
-
-route.get("/message",auth.authentication,messageController.reciveMessage)
-
-route.get("/dashboard",messageController.getDashboard)
-
-route.get("/GroupMessage",auth.authentication,messageController.getGroupMessage)
-route.post("/GroupMessage",auth.authentication,messageController.sendGroupMessage)
-route.post("/GroupMedia",auth.authentication,upload,messageController.sendGroupMedia)
+route.get("/messages",auth.authentication,chatController.getGroupMessages)
+route.post("/message",auth.authentication,chatController.sendGroupMessage)
+route.post("/media",auth.authentication,upload,chatController.sendGroupAttachment)
 
   
 module.exports=route
